@@ -6,7 +6,8 @@
 *.lo
 *.o
 *.obj
-
+.vscode/
+build/
 # Precompiled Headers
 *.gch
 *.pch
