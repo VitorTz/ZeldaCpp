@@ -4,21 +4,19 @@
 ze::Component::Component(
     const std::string& name
 ) : name(name) {
-    std::cout << name << " created\n";
+    
 }
 
 
-ze::Component::~Component() {
-    std::cout << name << " deleted\n";
-}
+ze::Component::~Component() = default;
 
 
-void ze::Component::update(const float& dt) {
+void ze::Component::update([[maybe_unused]] const float dt) {
 
 }
 
 
-void ze::Component::draw(sf::RenderWindow& window) {
+void ze::Component::draw([[maybe_unused]] sf::RenderWindow& window) {
 
 }
 
@@ -29,23 +27,21 @@ void ze::Component::setGameObj(ze::GameObj* gameObj) {
 
 
 ze::GameObj::GameObj(
-    std::string&& name
-) : name(name) {
-    std::cout << this->name << " created\n";
+    const std::string& name,
+    const ze::Zindex zIndex
+) : ze::GameObj(name, ze::Transform(zIndex)) {
+    
 }   
 
 
-ze::GameObj::~GameObj() {
-    std::cout << this->name << " deleted\n";
-}
-
-
 ze::GameObj::GameObj(
-    std::string&& name,
-    ze::Transform&& transform
+    const std::string& name,
+    const ze::Transform& transform
 ) : name(name),
-    transform(transform) {
-        std::cout << name << " created\n";
+    transform(transform),
+    state({ }),
+    stats({ }) {
+        
     }
 
 
@@ -68,7 +64,7 @@ void ze::GameObj::rmvComponent(const std::string& n) {
 }
 
 
-void ze::GameObj::update(const float& dt) {
+void ze::GameObj::update(const float dt) {
     for (const auto& [name, component] : this->componentMap)
         component->update(dt);
 }
@@ -77,4 +73,12 @@ void ze::GameObj::update(const float& dt) {
 void ze::GameObj::draw(sf::RenderWindow& window) {
     for (const auto& [name, component] : this->componentMap)
         component->draw(window);
+}
+
+
+void ze::GameObj::applyDamage(const float damage) {
+    this->stats.lifePoints -= damage;
+    if (this->stats.lifePoints < 0) {
+        this->stats.lifePoints = 0;
+    }
 }

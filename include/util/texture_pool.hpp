@@ -7,21 +7,23 @@
 #include <string>
 #include <memory>
 #include <map>
-#include <iostream>
+
 
 namespace ze {
 
 
     typedef struct ImageSource {
         const std::string path;
-        const bool isMask = false;
-        const sf::Color maskColor = sf::Color::White;
+        const bool isMask = {false};
+        const sf::Color maskColor = { };
     } ImageSource;
+
+    typedef std::map<std::string, std::unique_ptr<sf::Texture>> TextureMap;
 
     class TexturePool {
 
         private:
-            static std::map<std::string, std::unique_ptr<sf::Texture>> textureMap;
+            static TextureMap textureMap;
             
         public:
             static void load(sf::Sprite& sprite, const ze::ImageSource& imageSource);

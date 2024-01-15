@@ -1,14 +1,12 @@
 #ifndef BEB259A6_6A73_4834_91D2_183EA9B21081
 #define BEB259A6_6A73_4834_91D2_183EA9B21081
 #include <SFML/Graphics.hpp>
-#include <vector>
 #include <string>
 #include <memory>
-#include <iostream>
-#include "../util/texture_pool.hpp"
+#include <map>
 #include "../util/transform.hpp"
-#include "../constants.hpp"
-
+#include "../util/game_obj_state.hpp"
+#include "../util/game_obj_stats.hpp"
 
 
 namespace ze {
@@ -24,16 +22,19 @@ namespace ze {
         public:
             const std::string name;
             ze::Transform transform;
+            ze::GameObjState state;
+            ze::GameObjStats stats;
         
         public:
-            GameObj(std::string&& name);
-            GameObj(std::string&& name, ze::Transform&& transform);
-            ~GameObj();            
+            GameObj(GameObj&&) = default;
+            GameObj(const std::string& name, const ze::Zindex zIndex);
+            GameObj(const std::string& name, const ze::Transform& transform);
             void addComponent(ze::Component* c);
             void rmvComponent(const std::string& name);
             ze::Component* getComponent(const std::string& name);
-            void update(const float& dt);
+            void update(const float dt);
             void draw(sf::RenderWindow& window);
+            void applyDamage(const float damage);
 
     };
 
@@ -47,10 +48,10 @@ namespace ze {
             ze::GameObj* gameObj;
         
         public:
-
-            Component(const std::string& name);
+            Component(Component&& ) = default;
+            explicit Component(const std::string& name);
             virtual ~Component();
-            virtual void update(const float& dt);
+            virtual void update(const float dt);
             virtual void draw(sf::RenderWindow& window);
             virtual void setGameObj(ze::GameObj* gameObj);
     };

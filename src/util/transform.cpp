@@ -2,36 +2,43 @@
 
 
 ze::Transform::Transform(
-
-) : scale(1.f, 1.f) {
+    const ze::Zindex zIndex
+) : scale(1.f, 1.f),
+    zIndex(zIndex) {
     
 }
 
 
 ze::Transform::Transform(
     const sf::Vector2f& pos,
-    const sf::Vector2f& size
+    const sf::Vector2f& size,
+    const ze::Zindex zIndex
 ) : pos(pos),
     size(size),
-    scale({1.f, 1.f}) {
+    scale({1.f, 1.f}),
+    zIndex(zIndex) {
         
     }
 
 
 ze::Transform::Transform(
-    const sf::Vector2f& pos
+    const sf::Vector2f& pos,
+    const ze::Zindex zIndex
 ) : pos(pos),
-    scale(1.f, 1.f) {
+    scale(1.f, 1.f),
+    zIndex(zIndex) {
 
     }
 
 ze::Transform::Transform(
     const sf::Vector2f& pos,
     const sf::Vector2f& size,
-    const sf::Vector2f& scale
+    const sf::Vector2f& scale,
+    const ze::Zindex zIndex
 ) : pos(pos),
     size(size),
-    scale(scale) {
+    scale(scale),
+    zIndex(zIndex) {
 
     }
 
@@ -108,19 +115,17 @@ void ze::Transform::setCenter(const sf::Vector2f& v) {
 }
 
 
-void ze::Transform::moveX(const float x) {
-    this->pos.x += x;
+
+void ze::Transform::move(const float& dt) {    
+    ze::normalizeVector(this->direction);
+    this->pos.x += dt * this->direction.x * this->speed;
+    this->pos.y += dt * this->direction.y * this->speed;
 }
 
 
-void ze::Transform::moveY(const float y) {
-    this->pos.y += y;
-}
-
-
-void ze::Transform::move(const sf::Vector2f& v) {
-    this->pos.x += v.x;
-    this->pos.y += v.y;
+void ze::Transform::move(const sf::Vector2f& delta) {
+    this->pos.x += delta.x;
+    this->pos.y += delta.y;
 }
 
 

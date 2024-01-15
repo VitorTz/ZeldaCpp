@@ -1,9 +1,10 @@
 #ifndef FAC1EE2A_4802_4F7D_BFC2_CB8BE2AB5D0C
 #define FAC1EE2A_4802_4F7D_BFC2_CB8BE2AB5D0C
-#include <SFML/Graphics.hpp>
 #include <functional>
+#include <vector>
 #include "../ecs/ecs.hpp"
-#include "../ecs/components/components.hpp"
+#include "../util/group/camera.hpp"
+#include "../util/group/game_obj_group.hpp"
 
 
 namespace ze {
@@ -12,7 +13,7 @@ namespace ze {
         LevelId
     };
 
-    typedef std::function<void(const ze::SceneId&)> ChangeScene;
+    typedef std::function<void(const ze::SceneId)> ChangeScene;
 
     const ze::SceneId mainScene = ze::SceneId::LevelId;
 
@@ -22,20 +23,15 @@ namespace ze {
             const ze::SceneId id;
         
         protected:
-            const ze::ChangeScene& changeScene;
-            std::map<std::string, std::unique_ptr<ze::GameObj>> gameObjMap;
-        
-        protected:            
-            void addGameObj(std::unique_ptr<ze::GameObj>& gameObj);
-            ze::GameObj* getGameObj(const std::string& n);
-            void rmvGameObj(const std::string& n);
+            const ze::ChangeScene& changeScene;            
+            std::map<std::string, std::unique_ptr<ze::Group>> groups;            
         
         public:
-            Scene(const ze::SceneId& id, const ze::ChangeScene& changeScene);
+            Scene(const ze::SceneId id, const ze::ChangeScene& changeScene);
             virtual ~Scene();
-            virtual void update(const float& dt);
+            virtual void update(const float dt);
             virtual void draw(sf::RenderWindow& window);
-
+            void addToGroup(const std::shared_ptr<ze::GameObj>& obj, const std::vector<std::string>& groups);
     };
     
 } // namespace ze

@@ -1,7 +1,0 @@
-#ifndef DA5FBD1F_D6DC_4174_B612_39A63ADBA1FA
-#define DA5FBD1F_D6DC_4174_B612_39A63ADBA1FA
-
-#include "sprite.hpp"
-#include "mask.hpp"
-
-#endif /* DA5FBD1F_D6DC_4174_B612_39A63ADBA1FA */

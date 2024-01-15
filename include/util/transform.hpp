@@ -1,10 +1,12 @@
 #ifndef MANGA_READER_TRANSFORM_HPP
 #define MANGA_READER_TRANSFORM_HPP
 #include <SFML/System/Vector2.hpp>
-
+#include "z_index.hpp"
 
 
 namespace ze {
+
+    void normalizeVector(sf::Vector2f& v);
 
     class Transform {
 
@@ -12,18 +14,26 @@ namespace ze {
             sf::Vector2f pos;
             sf::Vector2f size;
             sf::Vector2f scale;
+            sf::Vector2f direction;
+            const ze::Zindex zIndex;
+            float speed;
 
         public:
-            Transform();
-            Transform(const sf::Vector2f& pos);
+            Transform(
+                const sf::Vector2f& pos,
+                const ze::Zindex zIndex
+            );
+            explicit Transform(const ze::Zindex zIndex);
             Transform(
                 const sf::Vector2f& pos,
                 const sf::Vector2f& size,
-                const sf::Vector2f& scale
+                const sf::Vector2f& scale,
+                const ze::Zindex zIndex
             );
             Transform(
                 const sf::Vector2f& pos,
-                const sf::Vector2f& size
+                const sf::Vector2f& size,
+                const ze::Zindex zIndex
             );
 
             float left() const;
@@ -49,10 +59,8 @@ namespace ze {
             void setCenterX(const float x);
             void setCenterY(const float y);
 
-            void moveY(const float y);
-            void moveX(const float x);
-            void move(const sf::Vector2f& v);
-
+            void move(const float& dt);
+            void move(const sf::Vector2f& delta);
             bool collide(const ze::Transform& t);
 
     };
