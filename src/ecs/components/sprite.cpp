@@ -29,9 +29,7 @@ void ze::Sprite::setGameObj(ze::GameObj* gameObj) {
 
 
 void ze::Sprite::draw(sf::RenderWindow& window) {
-    const ze::Transform& t = this->gameObj->transform;
-    this->sprite.setPosition(t.pos);
-    this->sprite.setScale(t.scale);
+    this->sprite.setPosition(this->gameObj->transform.pos);
     window.draw(this->sprite);
 }
 

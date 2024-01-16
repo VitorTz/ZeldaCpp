@@ -52,7 +52,7 @@ namespace ze {
 
     // res
     const std::filesystem::path GROUND_IMAGE_FILE("res/graphics/tilemap/ground.png");
-
+    const std::filesystem::path TREE_IMAGE_FILE("res/graphics/objects/07.png");
     // player
     const float PLAYER_SPEED = 300.f;
     const float PLAYER_LIFE_POINTS = 150;

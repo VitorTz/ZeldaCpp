@@ -13,29 +13,23 @@ namespace ze {
         public:
             sf::Vector2f pos;
             sf::Vector2f size;
-            sf::Vector2f scale;
             sf::Vector2f direction;
+            sf::Vector2f shrinkScale;
             const ze::Zindex zIndex;
             float speed;
 
         public:
-            Transform(
-                const sf::Vector2f& pos,
-                const ze::Zindex zIndex
-            );
             explicit Transform(const ze::Zindex zIndex);
             Transform(
                 const sf::Vector2f& pos,
-                const sf::Vector2f& size,
-                const sf::Vector2f& scale,
                 const ze::Zindex zIndex
             );
             Transform(
                 const sf::Vector2f& pos,
-                const sf::Vector2f& size,
+                const sf::Vector2f& size,                
                 const ze::Zindex zIndex
             );
-
+            
             float left() const;
             float right() const;
             float bottom() const;
@@ -59,9 +53,11 @@ namespace ze {
             void setCenterX(const float x);
             void setCenterY(const float y);
 
-            void move(const float& dt);
+            sf::Vector2f move(const float& dt);
             void move(const sf::Vector2f& delta);
             bool collide(const ze::Transform& t);
+
+            ze::Transform shrink() const;
 
     };
     

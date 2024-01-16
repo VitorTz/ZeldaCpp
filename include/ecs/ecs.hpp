@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <map>
+#include <set>
 #include "../util/transform.hpp"
 #include "../util/game_obj_state.hpp"
 #include "../util/game_obj_stats.hpp"
@@ -18,6 +19,7 @@ namespace ze {
 
         private:
             std::map<std::string, std::unique_ptr<ze::Component>> componentMap;
+            std::set<std::string> groupName;
         
         public:
             const std::string name;
@@ -26,15 +28,18 @@ namespace ze {
             ze::GameObjStats stats;
         
         public:
-            GameObj(GameObj&&) = default;
+            GameObj(GameObj&&) = default;      
+            ~GameObj();      
             GameObj(const std::string& name, const ze::Zindex zIndex);
             GameObj(const std::string& name, const ze::Transform& transform);
-            void addComponent(ze::Component* c);
+            void addComponent(ze::Component* c);            
             void rmvComponent(const std::string& name);
             ze::Component* getComponent(const std::string& name);
             void update(const float dt);
             void draw(sf::RenderWindow& window);
             void applyDamage(const float damage);
+            void addGroup(const std::string& name);
+            const std::set<std::string>& getGroups() const;
 
     };
 

@@ -3,7 +3,7 @@
 #include "../../ecs/ecs.hpp"
 #include <memory>
 #include <string>
-#include <map>
+#include <set>
 
 
 namespace ze {
@@ -11,18 +11,21 @@ namespace ze {
 
     class Group {
 
+        private:
+            std::set<std::shared_ptr<ze::GameObj>> objs;
+
         public:
             const std::string name;
         
         public:
             Group(const std::string& name);
             virtual ~Group();
-            virtual void add(const std::shared_ptr<ze::GameObj>& obj) = 0;
-            virtual void rmv(const std::string& name) = 0;
-            virtual void update(const float dt) = 0;
-            virtual void draw(sf::RenderWindow& window) = 0;
-            virtual ze::GameObj* get(const std::string& name) = 0;
-            
+            virtual void add(const std::shared_ptr<ze::GameObj>& obj);
+            virtual void rmv(const std::shared_ptr<ze::GameObj>& obj);
+            virtual bool contains(const std::shared_ptr<ze::GameObj>& obj) const;
+            virtual bool collide(const std::shared_ptr<ze::GameObj>& obj) const;
+            virtual void update(const float dt);
+            virtual std::set<std::shared_ptr<ze::GameObj>>& getObjs();
     };
     
 } // namespace ze

@@ -44,9 +44,14 @@ void ze::Player::handleMovement(const float dt) {
     }
 
     if (direction.x == 0.f && direction.y == 0.f) state.action = ze::Action::Idle;
-    this->gameObj->transform.move(dt);   
+    this->lastMove = this->gameObj->transform.move(dt);
 }
 
+
+void ze::Player::undoMovement() {
+    this->gameObj->transform.move(-this->lastMove);
+    this->lastMove = { };
+}
 
 void ze::Player::handleAttack() {
     ze::GameObjState& state = this->gameObj->state;
@@ -103,4 +108,5 @@ void ze::Player::setGameObj(ze::GameObj* gameObj) {
     this->gameObj->transform.speed = ze::PLAYER_SPEED;
     this->gameObj->transform.size = {ze::TILE_SIZE, ze::TILE_SIZE};
     this->gameObj->transform.setCenter(ze::SCREEN_CENTER);
+    this->gameObj->transform.shrinkScale = {0.5f, 0.5f};
 }

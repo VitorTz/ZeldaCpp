@@ -3,12 +3,16 @@
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
 #include <iostream>
+#include <random>
+#include <chrono>
 
 
 namespace ze {
 
 
     void normalizeVector(sf::Vector2f& v);
+
+    int randomInt(const int start, const int end);
 
     template<typename T>
     void printVector(const sf::Vector2<T>& v) {

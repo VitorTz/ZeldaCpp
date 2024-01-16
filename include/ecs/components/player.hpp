@@ -15,6 +15,7 @@ namespace ze {
             ze::Task attackTask;
             ze::Task damageTask;
             ze::Timer attackSpeedTimer;
+            sf::Vector2f lastMove;            
             
         private:
             void handleAttack();
@@ -25,6 +26,7 @@ namespace ze {
             void update(const float dt) override;
             void draw(sf::RenderWindow& window) override;
             void setGameObj(ze::GameObj* gameObj) override;        
+            void undoMovement();
             void applyDamage();
             
     };

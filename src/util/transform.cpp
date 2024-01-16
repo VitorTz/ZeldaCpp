@@ -3,7 +3,7 @@
 
 ze::Transform::Transform(
     const ze::Zindex zIndex
-) : scale(1.f, 1.f),
+) : shrinkScale(1.f, 1.f),
     zIndex(zIndex) {
     
 }
@@ -14,8 +14,8 @@ ze::Transform::Transform(
     const sf::Vector2f& size,
     const ze::Zindex zIndex
 ) : pos(pos),
-    size(size),
-    scale({1.f, 1.f}),
+    size(size),    
+    shrinkScale(1.f, 1.f),
     zIndex(zIndex) {
         
     }
@@ -24,24 +24,11 @@ ze::Transform::Transform(
 ze::Transform::Transform(
     const sf::Vector2f& pos,
     const ze::Zindex zIndex
-) : pos(pos),
-    scale(1.f, 1.f),
+) : pos(pos),    
+    shrinkScale(1.f, 1.f),
     zIndex(zIndex) {
 
     }
-
-ze::Transform::Transform(
-    const sf::Vector2f& pos,
-    const sf::Vector2f& size,
-    const sf::Vector2f& scale,
-    const ze::Zindex zIndex
-) : pos(pos),
-    size(size),
-    scale(scale),
-    zIndex(zIndex) {
-
-    }
-
 
 
 float ze::Transform::left() const {
@@ -116,10 +103,15 @@ void ze::Transform::setCenter(const sf::Vector2f& v) {
 
 
 
-void ze::Transform::move(const float& dt) {    
+sf::Vector2f ze::Transform::move(const float& dt) {    
     ze::normalizeVector(this->direction);
-    this->pos.x += dt * this->direction.x * this->speed;
-    this->pos.y += dt * this->direction.y * this->speed;
+    sf::Vector2f delta = {
+        dt * this->direction.x * this->speed,
+        dt * this->direction.y * this->speed
+    };
+    this->pos.x += delta.x;
+    this->pos.y += delta.y;
+    return delta;
 }
 
 
@@ -129,12 +121,26 @@ void ze::Transform::move(const sf::Vector2f& delta) {
 }
 
 
+ze::Transform ze::Transform::shrink() const {
+    ze::Transform t(this->zIndex);
+    t.size = {
+        this->size.x * this->shrinkScale.x,
+        this->size.y * this->shrinkScale.y
+    };
+    t.setCenter(this->center());
+    return t;
+}
+
 bool ze::Transform::collide(const ze::Transform& t) {
-    if (t.left() > this->right() || t.right() < this->left())
-        return false;
+    ze::Transform t1 = this->shrink();
+    ze::Transform t2 = t.shrink();
     
-    if (t.bottom() < this->top() || t.top() > this->bottom())
+    if (t2.left() > t1.right() || t2.right() < t1.left()) {
         return false;
+    } else if (t2.bottom() < t1.top() || t2.top() > t1.bottom()) {
+        return false;
+    }
+    
     return true;
 }
 

@@ -13,7 +13,7 @@ ze::Window::Window(
     this->window.setPosition(
         sf::Vector2i(
             desktop.width / 2 - ze::SCREEN_WIDTH / 2,
-            desktop.height / 2 - ze::SCREEN_HEIGHT / 2
+            desktop.height / 2 - ze::SCREEN_HEIGHT / 2 - 20
         )
     );
 

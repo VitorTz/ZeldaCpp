@@ -4,7 +4,6 @@
 #include <vector>
 #include "../ecs/ecs.hpp"
 #include "../util/group/camera.hpp"
-#include "../util/group/game_obj_group.hpp"
 
 
 namespace ze {
@@ -23,15 +22,29 @@ namespace ze {
             const ze::SceneId id;
         
         protected:
-            const ze::ChangeScene& changeScene;            
+            const ze::ChangeScene& changeScene;
+            ze::Camera* camera;
+            ze::Group* allObjsGroup;
+            ze::Group* collideGroup;
             std::map<std::string, std::unique_ptr<ze::Group>> groups;            
         
+        protected:
+            void rmvAllFromGroup(const std::string& groupName);
+            void rmvObj(const std::shared_ptr<ze::GameObj>& obj);
+            void addGroup(ze::Group* group);
+            void addObj(
+                const std::shared_ptr<ze::GameObj>& obj, 
+                const std::vector<std::string>& groups
+            );
+
         public:
-            Scene(const ze::SceneId id, const ze::ChangeScene& changeScene);
+            Scene(
+                const ze::SceneId id, 
+                const ze::ChangeScene& changeScene
+            );
             virtual ~Scene();
             virtual void update(const float dt);
             virtual void draw(sf::RenderWindow& window);
-            void addToGroup(const std::shared_ptr<ze::GameObj>& obj, const std::vector<std::string>& groups);
     };
     
 } // namespace ze

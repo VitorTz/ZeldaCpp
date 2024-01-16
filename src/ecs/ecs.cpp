@@ -1,5 +1,5 @@
 #include "../../include/ecs/ecs.hpp"
-
+#include <iostream>
 
 ze::Component::Component(
     const std::string& name
@@ -41,8 +41,13 @@ ze::GameObj::GameObj(
     transform(transform),
     state({ }),
     stats({ }) {
-        
+        std::cout << name << "\n";
     }
+
+
+ze::GameObj::~GameObj() {
+    std::cout << name << " deleted\n";
+}
 
 
 void ze::GameObj::addComponent(ze::Component* c) {
@@ -63,6 +68,14 @@ void ze::GameObj::rmvComponent(const std::string& n) {
     this->componentMap.erase(n);
 }
 
+
+void ze::GameObj::addGroup(const std::string& name) {
+    this->groupName.insert(name);
+}
+
+const std::set<std::string>& ze::GameObj::getGroups() const {
+    return this->groupName;
+}
 
 void ze::GameObj::update(const float dt) {
     for (const auto& [name, component] : this->componentMap)
