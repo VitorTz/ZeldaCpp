@@ -1,39 +1,29 @@
 #include "../../../include/ecs/components/sprite.hpp"
 
 
-ze::Sprite::Sprite(
+og::Sprite::Sprite(
     const std::string& name,
-    const ze::ImageSource& source
-) : ze::Component(name),
-    source(source) {
-    ze::TexturePool::load(this->sprite, source);
+    const std::filesystem::path& path
+) : og::Component(name),
+    path(path) {
+    og::TexturePool::load(this->sprite, path);
 }
 
 
-ze::Sprite::Sprite(
-    const ze::ImageSource& imageSource 
-) : ze::Sprite(imageSource.path, imageSource) {
+og::Sprite::Sprite(
+    const std::filesystem::path& path 
+) : og::Sprite(path.string(), path) {
 
 }
 
 
-ze::Sprite::~Sprite() {
-    ze::TexturePool::rmv(this->source.path);
-}
-
-
-void ze::Sprite::setGameObj(ze::GameObj* gameObj) {
-    ze::Component::setGameObj(gameObj);
-    this->gameObj->transform.size = (sf::Vector2f) this->sprite.getTexture()->getSize();
-}
-
-
-void ze::Sprite::draw(sf::RenderWindow& window) {
+void og::Sprite::draw(sf::RenderWindow& window) {
     this->sprite.setPosition(this->gameObj->transform.pos);
     window.draw(this->sprite);
 }
 
 
-const ze::ImageSource& ze::Sprite::getSource() const {
-    return this->source;
+void og::Sprite::setGameObj(og::GameObj* gameObj) {
+    og::Component::setGameObj(gameObj);
+    this->gameObj->transform.size = (sf::Vector2f) this->sprite.getTexture()->getSize();
 }

@@ -2,7 +2,7 @@
 
 
 int main() {
-    ze::Window w;
+    og::Window w;
     w.run();
-    return 0;
+    return EXIT_SUCCESS;
 }

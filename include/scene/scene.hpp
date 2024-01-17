@@ -1,53 +1,62 @@
-#ifndef FAC1EE2A_4802_4F7D_BFC2_CB8BE2AB5D0C
-#define FAC1EE2A_4802_4F7D_BFC2_CB8BE2AB5D0C
+#ifndef DFEEE5BE_E422_4817_98DD_76B35DB694A1
+#define DFEEE5BE_E422_4817_98DD_76B35DB694A1
+#include <SFML/Graphics.hpp>
 #include <functional>
-#include <vector>
+#include <map>
+#include <set>
 #include "../ecs/ecs.hpp"
-#include "../util/group/camera.hpp"
+#include "../ecs/game_obj_pool.hpp"
+#include "../group/group.hpp"
+#include "../group/camera.hpp"
 
 
-namespace ze {
+namespace og {
 
     enum SceneId {
         LevelId
     };
+    
+    const og::SceneId mainScene = og::SceneId::LevelId;
 
-    typedef std::function<void(const ze::SceneId)> ChangeScene;
-
-    const ze::SceneId mainScene = ze::SceneId::LevelId;
+    typedef std::function<void(const og::SceneId)> ChangeScene;
 
     class Scene {
-
+        
+        private:
+            std::map<std::string, std::unique_ptr<og::Group>> groups;
+            
         public:
-            const ze::SceneId id;
-        
+            const og::SceneId id;
+
         protected:
-            const ze::ChangeScene& changeScene;
-            ze::Camera* camera;
-            ze::Group* allObjsGroup;
-            ze::Group* collideGroup;
-            std::map<std::string, std::unique_ptr<ze::Group>> groups;            
-        
+
+            const og::ChangeScene& changeScene;
+            std::unique_ptr<og::GameObjPool> allObjs;
+            og::Camera* cameraGroup;
+            og::Group* collideGroup;
+
         protected:
-            void rmvAllFromGroup(const std::string& groupName);
-            void rmvObj(const std::shared_ptr<ze::GameObj>& obj);
-            void addGroup(ze::Group* group);
-            void addObj(
-                const std::shared_ptr<ze::GameObj>& obj, 
+            void addGroup(std::unique_ptr<og::Group> group);
+            og::Group* getGroup(const std::string& gName);
+            void addObjToGroups(
+                std::unique_ptr<og::GameObj>& obj, 
                 const std::vector<std::string>& groups
             );
+            void rmvObjFromGroups(og::GameObj* obj);
+            void rmvAllObjsFromGroup(const std::string& groupName);
 
         public:
             Scene(
-                const ze::SceneId id, 
-                const ze::ChangeScene& changeScene
+                const og::SceneId id, 
+                const og::ChangeScene& changeScene
             );
             virtual ~Scene();
             virtual void update(const float dt);
             virtual void draw(sf::RenderWindow& window);
+
     };
     
-} // namespace ze
+} // namespace og
 
 
-#endif /* FAC1EE2A_4802_4F7D_BFC2_CB8BE2AB5D0C */
+#endif /* DFEEE5BE_E422_4817_98DD_76B35DB694A1 */

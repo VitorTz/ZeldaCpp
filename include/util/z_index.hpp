@@ -1,23 +1,20 @@
-#ifndef DE3D696D_5349_4B71_BE6F_1EBDEDAA777D
-#define DE3D696D_5349_4B71_BE6F_1EBDEDAA777D
+#ifndef C484AD60_74CB_495F_B05C_F99D319146D6
+#define C484AD60_74CB_495F_B05C_F99D319146D6
+#include <vector>
 
-
-namespace ze {
-
+namespace og {
 
     enum Zindex {
         GroundIndex,
         PlayerIndex
     };
 
-
-    const ze::Zindex zIndexVector[] = {
-        ze::Zindex::GroundIndex,
-        ze::Zindex::PlayerIndex
+    const std::vector<og::Zindex> zIndexVector = {
+        og::Zindex::GroundIndex,
+        og::Zindex::PlayerIndex
     };
-
     
-} // namespace ze
+} // namespace og
 
 
-#endif /* DE3D696D_5349_4B71_BE6F_1EBDEDAA777D */
+#endif /* C484AD60_74CB_495F_B05C_F99D319146D6 */

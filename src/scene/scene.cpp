@@ -1,54 +1,66 @@
 #include "../../include/scene/scene.hpp"
 
 
-ze::Scene::Scene(
-    const ze::SceneId id,
-    const ze::ChangeScene& changeScene
+og::Scene::Scene(
+    const og::SceneId id,
+    const og::ChangeScene& changeScene
 ) : id(id),
     changeScene(changeScene),
-    camera(new ze::Camera()),
-    allObjsGroup(new ze::Group("all")),
-    collideGroup(new ze::Group("collide")) {
-        this->addGroup(this->camera);
-        this->addGroup(this->allObjsGroup);
-        this->addGroup(this->collideGroup);
+    allObjs(std::make_unique<og::GameObjPool>()) {
+        this->addGroup(std::make_unique<og::Group>("collide"));
+        this->addGroup(std::make_unique<og::Camera>());        
+        this->collideGroup = (og::Group*) this->getGroup("collide");
+        this->cameraGroup = (og::Camera*) this->getGroup("camera");
     }
 
 
-ze::Scene::~Scene() = default;
+og::Scene::~Scene() = default;
 
 
-void ze::Scene::update(const float dt) {
-    this->allObjsGroup->update(dt);
+void og::Scene::addGroup(std::unique_ptr<og::Group> group) {
+    this->groups.insert({group->name, std::move(group)});
+}
+
+og::Group* og::Scene::getGroup(const std::string& gName) {
+    return this->groups.at(gName).get();
 }
 
 
-void ze::Scene::draw(sf::RenderWindow& window) {
-    this->camera->draw(window);
+void og::Scene::addObjToGroups(
+    std::unique_ptr<og::GameObj>& obj,
+    const std::vector<std::string>& groups
+) {
+    for (const std::string& groupName : groups) {
+        this->groups.at(groupName)->add(obj.get());
+        obj->addGroup(groupName);
+    }
+    this->allObjs->add(obj);
 }
 
-void ze::Scene::addGroup(ze::Group* group) {
-    this->groups.insert({group->name, std::unique_ptr<ze::Group>(group)});
+
+void og::Scene::rmvObjFromGroups(og::GameObj* obj) {
+    for (const std::string& groupName : obj->getGroups()) {
+        this->groups.at(groupName)->rmv(obj);
+    }
+    this->allObjs->rmv(obj->name);
 }
 
-void ze::Scene::addObj(const std::shared_ptr<ze::GameObj>& obj, const std::vector<std::string>& groups) {
-    for (const std::string& name : groups) {
-        this->groups.at(name)->add(obj);
-        obj->addGroup(name);
+
+void og::Scene::rmvAllObjsFromGroup(const std::string& groupName) {
+    std::unique_ptr<og::Group>& group = this->groups.at(groupName);
+    std::set<og::GameObj*>* objs = group->getObjs();
+    while (!objs->empty()) {
+        auto i = objs->extract(objs->begin());
+        this->rmvObjFromGroups(i.value());
     }
 }
 
-void ze::Scene::rmvAllFromGroup(const std::string& name) {
-    std::set<std::shared_ptr<ze::GameObj>>& objs = this->groups.at(name)->getObjs();
-    while (!objs.empty()) {
-        auto i = objs.extract(objs.begin());
-        std::shared_ptr<ze::GameObj>& obj = i.value();
-        this->rmvObj(obj);
-    }
+
+void og::Scene::update(const float dt) {
+    this->allObjs->update(dt);
 }
 
-void ze::Scene::rmvObj(const std::shared_ptr<ze::GameObj>& obj) {
-    for (const std::string& name : obj->getGroups()) {
-        this->groups.at(name)->rmv(obj);
-    }
+
+void og::Scene::draw(sf::RenderWindow& window) {
+    this->cameraGroup->draw(window);
 }

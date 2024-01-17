@@ -1,37 +1,33 @@
-#ifndef FC1808FF_4FE9_44D1_8D8E_D291305F03EA
-#define FC1808FF_4FE9_44D1_8D8E_D291305F03EA
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Image.hpp>
-#include <SFML/Graphics/Color.hpp>
-#include <string>
-#include <memory>
+#ifndef E50F8321_8EBE_4C2A_B4AA_0E63015892B5
+#define E50F8321_8EBE_4C2A_B4AA_0E63015892B5
+#include <mutex>
+#include <filesystem>
 #include <map>
+#include <memory>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
+namespace og{ 
 
-namespace ze {
-
-
-    typedef struct ImageSource {
-        const std::string path;
-        const bool isMask = {false};
-        const sf::Color maskColor = { };
-    } ImageSource;
-
-    typedef std::map<std::string, std::unique_ptr<sf::Texture>> TextureMap;
 
     class TexturePool {
 
         private:
-            static TextureMap textureMap;
-            
+            static std::mutex m;
+            static std::map<std::filesystem::path, std::unique_ptr<sf::Texture>> textureMap;
+            static std::unique_ptr<sf::Texture>& addTexture(const std::filesystem::path& path);
+
         public:
-            static void load(sf::Sprite& sprite, const ze::ImageSource& imageSource);
-            static void rmv(const std::string& path);
+            static void load(sf::Sprite& sprite, const std::filesystem::path& path);
+            static void rmv(const std::filesystem::path& path);
+            static void rmvAll();
+
+    
+
 
     };
     
-} // namespace ze
+} // namespace og
 
 
-#endif /* FC1808FF_4FE9_44D1_8D8E_D291305F03EA */
+#endif /* E50F8321_8EBE_4C2A_B4AA_0E63015892B5 */

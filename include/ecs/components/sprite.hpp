@@ -1,31 +1,33 @@
-#ifndef D9B23DF8_581A_4CA3_B19E_9C3EEA780CE8
-#define D9B23DF8_581A_4CA3_B19E_9C3EEA780CE8
+#ifndef D5DBAFBA_B1C7_4F1A_8E6B_61A8F2EB7DEB
+#define D5DBAFBA_B1C7_4F1A_8E6B_61A8F2EB7DEB
+#include <filesystem>
 #include "../ecs.hpp"
 #include "../../util/texture_pool.hpp"
 
 
-namespace ze {
+namespace og {
 
-    class Sprite : public ze::Component {
-        
-        protected:
-            const ze::ImageSource source;
+
+    class Sprite : public og::Component {
+
+        private:
+            std::filesystem::path path;
             sf::Sprite sprite;
 
         public:
+            explicit Sprite(
+                const std::filesystem::path& path
+            );
             Sprite(
                 const std::string& name,
-                const ze::ImageSource& imageSource
-            );            
-            explicit Sprite(const ze::ImageSource& imageSource);
-            ~Sprite() override;
+                const std::filesystem::path& path
+            );
             void draw(sf::RenderWindow& window) override;
-            void setGameObj(ze::GameObj* gameObj) override;
-            const ze::ImageSource& getSource() const;
+            void setGameObj(og::GameObj* gameObj) override;
 
     };
     
-} // namespace ze
+} // namespace og
 
 
-#endif /* D9B23DF8_581A_4CA3_B19E_9C3EEA780CE8 */
+#endif /* D5DBAFBA_B1C7_4F1A_8E6B_61A8F2EB7DEB */

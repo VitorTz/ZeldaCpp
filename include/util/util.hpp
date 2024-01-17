@@ -1,31 +1,17 @@
-#ifndef A544F043_735B_41C9_B0D2_246A290B987B
-#define A544F043_735B_41C9_B0D2_246A290B987B
-#include <SFML/System/Vector2.hpp>
+#ifndef C8937AFD_0009_424E_B9DF_8968FF909DEC
+#define C8937AFD_0009_424E_B9DF_8968FF909DEC
 #include <cmath>
-#include <iostream>
+#include <SFML/System/Vector2.hpp>
 #include <random>
-#include <chrono>
 
 
-namespace ze {
+namespace og {
 
 
     void normalizeVector(sf::Vector2f& v);
-
     int randomInt(const int start, const int end);
-
-    template<typename T>
-    void printVector(const sf::Vector2<T>& v) {
-        std::cout << 
-        "Vector(" << 
-        v.x << 
-        ", " << 
-        v.y << 
-        ')' << 
-        '\n';
-    }
     
-} // namespace ze
+} // namespace og
 
 
-#endif /* A544F043_735B_41C9_B0D2_246A290B987B */
+#endif /* C8937AFD_0009_424E_B9DF_8968FF909DEC */

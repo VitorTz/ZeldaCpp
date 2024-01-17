@@ -4,7 +4,7 @@
 #include "z_index.hpp"
 
 
-namespace ze {
+namespace og {
 
     void normalizeVector(sf::Vector2f& v);
 
@@ -15,19 +15,19 @@ namespace ze {
             sf::Vector2f size;
             sf::Vector2f direction;
             sf::Vector2f shrinkScale;
-            const ze::Zindex zIndex;
+            const og::Zindex zIndex;
             float speed;
 
         public:
-            explicit Transform(const ze::Zindex zIndex);
+            explicit Transform(const og::Zindex zIndex);
             Transform(
                 const sf::Vector2f& pos,
-                const ze::Zindex zIndex
+                const og::Zindex zIndex
             );
             Transform(
                 const sf::Vector2f& pos,
                 const sf::Vector2f& size,                
-                const ze::Zindex zIndex
+                const og::Zindex zIndex
             );
             
             float left() const;
@@ -55,9 +55,9 @@ namespace ze {
 
             sf::Vector2f move(const float& dt);
             void move(const sf::Vector2f& delta);
-            bool collide(const ze::Transform& t);
-
-            ze::Transform shrink() const;
+            bool collide(const og::Transform& t) const;
+            bool collide(const sf::Vector2f& pos, const sf::Vector2f& size) const;
+            og::Transform shrink() const;
 
     };
     

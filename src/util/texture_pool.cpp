@@ -1,50 +1,40 @@
 #include "../../include/util/texture_pool.hpp"
 
 
-std::map<std::string, std::unique_ptr<sf::Texture>> ze::TexturePool::textureMap;
+std::map<std::filesystem::path, std::unique_ptr<sf::Texture>> og::TexturePool::textureMap;
 
 
-void ze::TexturePool::load(sf::Sprite& sprite, const ze::ImageSource& source) {    
-    if (ze::TexturePool::textureMap.find(source.path) == ze::TexturePool::textureMap.end()) {
-        const auto& [pair, success] = ze::TexturePool::textureMap.insert(
-            {source.path, std::make_unique<sf::Texture>()}
-        );
-        
-        pair->second->loadFromFile(source.path);
+std::mutex og::TexturePool::m;
+
+
+std::unique_ptr<sf::Texture>& og::TexturePool::addTexture(const std::filesystem::path& path) {
+    og::TexturePool::m.lock();
+    if (og::TexturePool::textureMap.find(path) == og::TexturePool::textureMap.end()) {        
+        const auto& [pair, success] = og::TexturePool::textureMap.insert(
+            {path, std::make_unique<sf::Texture>()}
+        );        
+        pair->second->loadFromFile(path);
     }
-    
-    sf::Texture* texture = ze::TexturePool::textureMap.at(source.path).get();
-    if (!source.isMask) {
-        sprite.setTexture(*texture);
-        return;
-    }
+    std::unique_ptr<sf::Texture>& t = og::TexturePool::textureMap.at(path);
+    og::TexturePool::m.unlock();
+    return t;
+}
 
-    const std::string maskKey = "mask-" + source.path;
-    if (ze::TexturePool::textureMap.find(maskKey) == ze::TexturePool::textureMap.end()) {
-        sf::Image image = texture->copyToImage();
-        const sf::Vector2u imageSize = image.getSize();
-
-        for (std::size_t j = 0; j < imageSize.y; j++) {
-            for (std::size_t i = 0; i < imageSize.x; i++) {
-                const sf::Color c = image.getPixel(i, j);
-                if (c.a != 0) image.setPixel(i, j, source.maskColor);                
-            }
-        }
-        
-        const auto& [pair, success] = ze::TexturePool::textureMap.insert(
-            {maskKey, std::make_unique<sf::Texture>()}
-        );
-        
-        pair->second->loadFromImage(image);
-    }
-
-    sf::Texture* maskTexture = ze::TexturePool::textureMap.at(maskKey).get();
-    sprite.setTexture(*maskTexture);
-
+void og::TexturePool::load(sf::Sprite& sprite, const std::filesystem::path& path) {
+    std::unique_ptr<sf::Texture>& t = og::TexturePool::addTexture(path);
+    sprite.setTexture(*t.get());
 }
 
 
-void ze::TexturePool::rmv(const std::string& path) {
-    ze::TexturePool::textureMap.erase("mask-" + path);
-    ze::TexturePool::textureMap.erase(path);
+void og::TexturePool::rmv(const std::filesystem::path& path) {
+    og::TexturePool::m.lock();
+    og::TexturePool::textureMap.erase(path);
+    og::TexturePool::m.unlock();
+}
+
+
+void og::TexturePool::rmvAll() {
+    og::TexturePool::m.lock();
+    og::TexturePool::textureMap.clear();
+    og::TexturePool::m.unlock();
 }
