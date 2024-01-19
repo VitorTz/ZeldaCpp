@@ -1,24 +1,25 @@
 #ifndef BAB56217_0E7D_4EF7_BE80_A4ED3503E762
 #define BAB56217_0E7D_4EF7_BE80_A4ED3503E762
 #include "scene.hpp"
-#include "../ecs/components/sprite.hpp"
-#include "../util/util.hpp"
-#include "../constants.hpp"
+#include "../ecs/components/player.hpp"
 
 
-namespace og {
+namespace ze {
 
-    class Level : public og::Scene {
+    class Level : public ze::Scene {
 
+
+        private:
+            void handlePlayerCollide();
 
         public:
-            Level(const og::ChangeScene& changeScene);
+            Level(const ze::ChangeScene& changeScene);
             void update(const float dt) override;
             void draw(sf::RenderWindow& window) override;
 
     };
     
-} // namespace og
+} // namespace ze
 
 
 #endif /* BAB56217_0E7D_4EF7_BE80_A4ED3503E762 */

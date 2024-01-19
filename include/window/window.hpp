@@ -5,7 +5,7 @@
 #include "../scene/scenes.hpp"
 #include "../constants.hpp"
 
-namespace og {
+namespace ze {
 
 
     class Window {
@@ -13,8 +13,8 @@ namespace og {
         private:
             sf::RenderWindow window;
             sf::Clock clock;
-            std::unique_ptr<og::Scene> scene;
-            og::ChangeScene changeScene;
+            std::unique_ptr<ze::Scene> scene;
+            ze::ChangeScene changeScene;
 
         private:
             void handleInput();
@@ -27,7 +27,7 @@ namespace og {
 
     };
     
-} // namespace og
+} // namespace ze
 
 
 #endif /* AF1BE35E_8923_4E47_B0A1_EEAAE21CA724 */

@@ -2,26 +2,26 @@
 
 
 
-og::Window::Window(
+ze::Window::Window(
 
 ) : window(
-    sf::VideoMode(og::SCREEN_WIDTH, og::SCREEN_HEIGHT),
-    og::SCREEN_TITLE,
+    sf::VideoMode(ze::SCREEN_WIDTH, ze::SCREEN_HEIGHT),
+    ze::SCREEN_TITLE,
     sf::Style::Close | sf::Style::Titlebar
 ) {
-    this->window.setFramerateLimit(og::FPS);
+    this->window.setFramerateLimit(ze::FPS);
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     this->window.setPosition(
         sf::Vector2i(
-            desktop.width / 2 - og::SCREEN_WIDTH / 2,
-            desktop.height / 2 - og::SCREEN_HEIGHT / 2
+            desktop.width / 2 - ze::SCREEN_WIDTH / 2,
+            desktop.height / 2 - ze::SCREEN_HEIGHT / 2
         )
     );
-    this->changeScene = [this](const og::SceneId id) {
+    this->changeScene = [this](const ze::SceneId id) {
         if (this->scene == nullptr || this->scene->id != id) {
             switch (id) {
-                case og::SceneId::LevelId:
-                    this->scene.reset(new og::Level(this->changeScene));
+                case ze::SceneId::LevelId:
+                    this->scene.reset(new ze::Level(this->changeScene));
                     break;
                 default:
                     break;
@@ -29,12 +29,12 @@ og::Window::Window(
         }
     };
 
-    this->changeScene(og::mainScene);
+    this->changeScene(ze::mainScene);
 
 }
 
 
-void og::Window::handleInput() {
+void ze::Window::handleInput() {
     sf::Event e;
     while (this->window.pollEvent(e)) {
         switch (e.type) {
@@ -48,20 +48,20 @@ void og::Window::handleInput() {
 }
 
 
-void og::Window::update() {
+void ze::Window::update() {
     const float dt = this->clock.restart().asSeconds();
     this->scene->update(dt);
 }
 
 
-void og::Window::draw() {
+void ze::Window::draw() {
     this->window.clear();
     this->scene->draw(this->window);
     this->window.display();
 }
 
 
-void og::Window::run() {
+void ze::Window::run() {
     while (this->window.isOpen()) {
         this->handleInput();
         this->update();

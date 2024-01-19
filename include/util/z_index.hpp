@@ -2,19 +2,19 @@
 #define C484AD60_74CB_495F_B05C_F99D319146D6
 #include <vector>
 
-namespace og {
+namespace ze {
 
     enum Zindex {
         GroundIndex,
         PlayerIndex
     };
 
-    const std::vector<og::Zindex> zIndexVector = {
-        og::Zindex::GroundIndex,
-        og::Zindex::PlayerIndex
+    const std::vector<ze::Zindex> zIndexVector = {
+        ze::Zindex::GroundIndex,
+        ze::Zindex::PlayerIndex
     };
     
-} // namespace og
+} // namespace ze
 
 
 #endif /* C484AD60_74CB_495F_B05C_F99D319146D6 */

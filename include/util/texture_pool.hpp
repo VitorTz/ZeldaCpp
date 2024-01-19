@@ -7,7 +7,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-namespace og{ 
+namespace ze{ 
 
 
     class TexturePool {
@@ -27,7 +27,7 @@ namespace og{
 
     };
     
-} // namespace og
+} // namespace ze
 
 
 #endif /* E50F8321_8EBE_4C2A_B4AA_0E63015892B5 */

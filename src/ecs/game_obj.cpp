@@ -1,48 +1,76 @@
 #include "../../include/ecs/ecs.hpp"
+#include <iostream>
 
 
-og::GameObj::GameObj(
+ze::GameObj::GameObj(
     const std::string& name,
-    const og::Zindex zIndex
-) : og::GameObj(name, og::Transform(zIndex)) {
-    
+    const ze::Zindex zIndex,
+    const std::set<ze::Group*>& groups
+) : name(name), 
+    transform(ze::Transform(zIndex)), 
+    state(ze::GameObjState::Idle){
+    this->addToGroups(groups);
 }
 
-og::GameObj::GameObj(
-    const std::string& name,
-    const og::Transform& transform
-) : name(name),
-    transform(transform) {
-        
+
+ze::GameObj::~GameObj() {    
+    for (ze::Group* group : this->groups) {
+        group->rmv(this);
     }
+    this->groups.clear();
+}
 
 
-og::GameObj::~GameObj() = default;
-
-
-void og::GameObj::update(const float dt) {
+void ze::GameObj::update(const float dt) {
     for (const auto& [name, component] : this->componentMap)
         component->update(dt);
 }
 
 
-void og::GameObj::draw(sf::RenderWindow& window) {
+void ze::GameObj::draw(sf::RenderWindow& window) {
     for (const auto& [name, component] : this->componentMap)
         component->draw(window);
 }
 
 
-void og::GameObj::addComponent(std::unique_ptr<og::Component> component) {
+void ze::GameObj::addComponent(std::unique_ptr<ze::Component> component) {
     component->setGameObj(this);
     this->componentMap.insert({component->name, std::move(component)});
 }
 
 
-void og::GameObj::addGroup(const std::string& name) {
-    this->groups.insert(name);
+ze::Component* ze::GameObj::getComponent(const std::string& componentName) {
+    try {
+        return this->componentMap.at(componentName).get();
+    } catch (std::out_of_range& e) { }
+    return nullptr;
 }
 
 
-const std::set<std::string>& og::GameObj::getGroups() const {
-    return this->groups;
+void ze::GameObj::addToGroup(ze::Group* group) {
+    group->add(this);
+    this->groups.insert(group);
 }
+
+
+void ze::GameObj::addToGroups(const std::set<ze::Group*>& groups) {
+    for (ze::Group* group : groups) {
+        group->add(this);
+        this->groups.insert(group);
+    }
+}
+
+
+void ze::GameObj::rmvFromGroup(ze::Group* group) {
+    group->rmv(this);
+    this->groups.erase(group);
+}
+
+
+void ze::GameObj::rmvFromAllGroups() {
+    for (ze::Group* group : this->groups) {
+        group->rmv(this);
+    }
+    this->groups.clear();
+}
+

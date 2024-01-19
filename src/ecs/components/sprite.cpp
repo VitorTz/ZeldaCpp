@@ -1,29 +1,36 @@
 #include "../../../include/ecs/components/sprite.hpp"
 
 
-og::Sprite::Sprite(
-    const std::string& name,
+ze::Sprite::Sprite(    
+    const std::filesystem::path& path,
+    const sf::Vector2f& boxColliderScale
+) : ze::Component(path.stem().string()),
+    path(path),
+    boxColliderScale(boxColliderScale) {
+    ze::TexturePool::load(this->sprite, path);
+}
+
+ze::Sprite::Sprite(
     const std::filesystem::path& path
-) : og::Component(name),
-    path(path) {
-    og::TexturePool::load(this->sprite, path);
-}
-
-
-og::Sprite::Sprite(
-    const std::filesystem::path& path 
-) : og::Sprite(path.string(), path) {
+) : ze::Sprite(path, sf::Vector2f()) {
 
 }
 
+ze::Sprite::Sprite(
+    const ze::MapObj& mapObj
+) : ze::Sprite(mapObj.imagePath, mapObj.boxColliderScale) {
 
-void og::Sprite::draw(sf::RenderWindow& window) {
+}
+
+
+void ze::Sprite::draw(sf::RenderWindow& window) {
     this->sprite.setPosition(this->gameObj->transform.pos);
     window.draw(this->sprite);
 }
 
 
-void og::Sprite::setGameObj(og::GameObj* gameObj) {
-    og::Component::setGameObj(gameObj);
+void ze::Sprite::setGameObj(ze::GameObj* gameObj) {
+    ze::Component::setGameObj(gameObj);
     this->gameObj->transform.size = (sf::Vector2f) this->sprite.getTexture()->getSize();
+    this->gameObj->transform.boxColliderScale = this->boxColliderScale;
 }

@@ -1,5 +1,5 @@
 CXX      := -g++
-CXXFLAGS := -std=c++17 -g -Wall -O2 -Wextra -pedantic
+CXXFLAGS := -std=c++17 -g -Wall -O3 -Wextra -pedantic
 LDFLAGS  := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects

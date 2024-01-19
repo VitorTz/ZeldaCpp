@@ -4,30 +4,34 @@
 #include "z_index.hpp"
 
 
-namespace og {
+namespace ze {
 
     void normalizeVector(sf::Vector2f& v);
 
     class Transform {
 
         public:
+            static bool collide(const ze::Transform& t1, const ze::Transform& t2);
+
+        public:
             sf::Vector2f pos;
             sf::Vector2f size;
             sf::Vector2f direction;
-            sf::Vector2f shrinkScale;
-            const og::Zindex zIndex;
+            sf::Vector2f boxColliderScale;
+            const ze::Zindex zIndex;
             float speed;
 
         public:
-            explicit Transform(const og::Zindex zIndex);
+            Transform();
+            explicit Transform(const ze::Zindex zIndex);
             Transform(
                 const sf::Vector2f& pos,
-                const og::Zindex zIndex
+                const ze::Zindex zIndex
             );
             Transform(
                 const sf::Vector2f& pos,
                 const sf::Vector2f& size,                
-                const og::Zindex zIndex
+                const ze::Zindex zIndex
             );
             
             float left() const;
@@ -54,10 +58,9 @@ namespace og {
             void setCenterY(const float y);
 
             sf::Vector2f move(const float& dt);
-            void move(const sf::Vector2f& delta);
-            bool collide(const og::Transform& t) const;
-            bool collide(const sf::Vector2f& pos, const sf::Vector2f& size) const;
-            og::Transform shrink() const;
+            void move(const sf::Vector2f& distance);
+
+            ze::Transform shrink() const;
 
     };
     

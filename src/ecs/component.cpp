@@ -1,25 +1,25 @@
 #include "../../include/ecs/ecs.hpp"
 
 
-og::Component::Component(
+ze::Component::Component(
     const std::string& name
 ) : name(name) {
 
 }
 
-og::Component::~Component() = default;
+ze::Component::~Component() = default;
 
 
-void og::Component::update([[maybe_unused]] const float dt) {
-
-}
-
-
-void og::Component::draw([[maybe_unused]] sf::RenderWindow& window) {
+void ze::Component::update([[maybe_unused]] const float dt) {
 
 }
 
 
-void og::Component::setGameObj(og::GameObj* gameObj) {
+void ze::Component::draw([[maybe_unused]] sf::RenderWindow& window) {
+
+}
+
+
+void ze::Component::setGameObj(ze::GameObj* gameObj) {
     this->gameObj = gameObj;
 }
