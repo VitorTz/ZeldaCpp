@@ -1,7 +1,0 @@
-#ifndef D8DD9C0D_91FC_43BF_9397_FFE08989DDD1
-#define D8DD9C0D_91FC_43BF_9397_FFE08989DDD1
-
-#include "scene.hpp"
-#include "level.hpp"
-
-#endif /* D8DD9C0D_91FC_43BF_9397_FFE08989DDD1 */
