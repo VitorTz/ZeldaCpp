@@ -1,6 +1,8 @@
-#include <iostream>
+#include "../include/window/Window.h"
+
 
 int main() {
-    std::cout << "Hello, World!\n";
+    ze::Window w;
+    w.run();
     return 0;
 }
