@@ -1,8 +1,4 @@
-//
-// Created by vitor on 1/28/24.
-//
-#include "../../include/util/util.h"
-
+#include "../../include/util/util.hpp"
 
 
 void ze::normalizeVector(sf::Vector2f *v) {
@@ -11,4 +7,20 @@ void ze::normalizeVector(sf::Vector2f *v) {
         v->x /= m;
         v->y /= m;
     }
+}
+
+
+int ze::randomInt(int start, int end) {
+    std::random_device os_seed;
+    const uint_least32_t seed = os_seed();
+
+    std::mt19937 generator( seed );
+    std::uniform_int_distribution<int_least32_t> distribute( start, end);
+
+    return distribute(generator);
+}
+
+
+void ze::printVector(const sf::Vector2f v) {
+    std::cout << "Vector(" << v.x << ", " << v.y << ")\n";
 }

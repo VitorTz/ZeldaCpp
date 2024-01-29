@@ -1,35 +1,50 @@
-//
-// Created by vitor on 1/28/24.
-//
-#include "../../include/ecs/ecs.h"
+#include "../../include/ecs/GameObjPool.hpp"
 
 
-std::map<std::string, std::unique_ptr<ze::GameObj>> ze::GameObjPool::gameObjMap;
+
+ze::GameObjPool::~GameObjPool() = default;
 
 
-ze::GameObj* ze::GameObjPool::create(const std::string& name, const int zIndex, const std::vector<ze::GroupId>& ids) {
-    const auto& [pair, success] = ze::GameObjPool::gameObjMap.insert(
-        {name, std::make_unique<ze::GameObj>(name, zIndex)}
-    );
-    ze::GameObj* obj = pair->second.get();
-    for (const ze::GroupId id : ids) {
-        obj->addToGroup(ze::GroupPool::get(id));
-    }
-    return obj;
+
+void ze::GameObjPool::create(
+    const std::string& name, 
+    int zIndex,
+    const std::vector<ze::GroupId>& groups
+) {
+    std::unique_ptr<ze::GameObj> obj = std::make_unique<ze::GameObj>(name, zIndex);
+    this->groupPool->addToGroup(obj.get(), groups);
+    this->groupPool->addToGroup(obj.get(), ze::GroupId::AllGroup);
+    this->objMap.insert({name, std::move(obj)});
 }
 
 
-ze::GameObj* ze::GameObjPool::get(const std::string &name) {
-    return ze::GameObjPool::gameObjMap.at(name).get();
+void ze::GameObjPool::create(
+    const std::string& name, 
+    int zIndex,
+    const std::vector<ze::GroupId>& groups,
+    std::unique_ptr<ze::Component> component    
+) {
+    std::unique_ptr<ze::GameObj> obj = std::make_unique<ze::GameObj>(name, zIndex);
+    this->groupPool->addToGroup(obj.get(), groups);
+    obj.get()->addComponent(std::move(component));
+    this->groupPool->addToGroup(obj.get(), ze::GroupId::AllGroup);
+    this->objMap.insert({name, std::move(obj)});
 }
 
 
 
-void ze::GameObjPool::erase(const std::string &name) {
-    ze::GameObjPool::gameObjMap.erase(name);
+ze::GameObj* ze::GameObjPool::get(const std::string& name) {
+    return this->objMap.at(name).get();
 }
 
 
-void ze::GameObjPool::clear() {
-    ze::GameObjPool::gameObjMap.clear();
+void ze::GameObjPool::erase(const std::string& name) {
+    this->groupPool->rmvFromAllGroups(this->objMap.at(name).get());
+    this->objMap.erase(name);
+}
+
+
+void ze::GameObjPool::erase(ze::GameObj* obj) {
+    this->groupPool->rmvFromAllGroups(obj);
+    this->objMap.erase(obj->name);
 }

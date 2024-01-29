@@ -1,7 +1,3 @@
-//
-// Created by vitor on 1/28/24.
-//
-
 #ifndef ZELDACPP_RECT_H
 #define ZELDACPP_RECT_H
 #include <SFML/System/Vector2.hpp>
@@ -55,6 +51,9 @@ namespace ze {
         void setWidth(float width);
         void setHeight(float height);
 
+        [[nodiscard]] Rect shrink(sf::Vector2f scale) const;
+
+        static bool collide(const ze::Rect& r1, const ze::Rect& r2);
 
     };
 

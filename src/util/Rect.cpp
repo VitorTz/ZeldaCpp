@@ -1,8 +1,4 @@
-//
-// Created by vitor on 1/28/24.
-//
-#include "../../include/util/Rect.h"
-
+#include "../../include/util/Rect.hpp"
 
 
 void ze::Rect::moveHorizontal(const float x) {
@@ -129,4 +125,25 @@ void ze::Rect::setWidth(float width) {
 
 void ze::Rect::setHeight(float height) {
     this->size.y = height;
+}
+
+
+ze::Rect ze::Rect::shrink(const sf::Vector2f scale) const {
+    ze::Rect r;
+    r.setSize({this->size.x * scale.x, this->size.y * scale.y});
+    r.setCenter(this->center());
+    return r;
+}
+
+
+bool ze::Rect::collide(const ze::Rect &r1, const ze::Rect &r2) {
+    if (r1.left() > r2.right() || r1.right() < r2.left()) {
+        return false;
+    }
+
+    if (r1.top() > r2.bottom() || r1.bottom() < r2.top()) {
+        return false;
+    }
+    
+    return true;
 }

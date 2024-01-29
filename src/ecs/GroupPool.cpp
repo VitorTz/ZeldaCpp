@@ -1,34 +1,56 @@
-//
-// Created by vitor on 1/28/24.
-//
-#include "../../include/ecs/ecs.h"
+#include "../../include/ecs/GroupPool.hpp"
 
 
-std::map<ze::GroupId, std::unique_ptr<ze::Group>> ze::GroupPool::groupMap;
 
 
-void ze::GroupPool::create(ze::GroupId id) {
-    ze::GroupPool::groupMap.insert({id, std::make_unique<ze::Group>(id)});
+void ze::GroupPool::addToGroup(
+    ze::GameObj* obj,
+    const ze::GroupId id
+) {
+    if (this->groupsByGameObj.find(obj) == this->groupsByGameObj.end()) {
+        this->groupsByGameObj.insert({obj, {}});
+    }
+    this->groupMap.at(id)->add(obj);
+    this->groupsByGameObj.at(obj).insert(id);
 }
 
 
-void ze::GroupPool::create(std::unique_ptr<ze::Group> group) {
-    ze::GroupPool::groupMap.insert({group->id, std::move(group)});
-}
-
-
-void ze::GroupPool::create(const std::vector<ze::GroupId>& groups) {
-    for (const ze::GroupId id : groups) {
-        ze::GroupPool::groupMap.insert({id, std::make_unique<ze::Group>(id)});
+void ze::GroupPool::addToGroup(
+    ze::GameObj* obj, 
+    const std::vector<ze::GroupId>& ids
+) {
+    for (const ze::GroupId id : ids) {
+        this->addToGroup(obj, id);
     }
 }
 
 
-ze::Group* ze::GroupPool::get(ze::GroupId id) {
-    return ze::GroupPool::groupMap.at(id).get();
+void ze::GroupPool::rmvFromGroup(ze::GameObj* obj, const ze::GroupId id) {
+    this->groupsByGameObj.at(obj).erase(id);
+    this->groupMap.at(id)->erase(obj);
 }
 
 
-void ze::GroupPool::clear() {
-    ze::GroupPool::groupMap.clear();
+void ze::GroupPool::rmvFromAllGroups(ze::GameObj* gameObj) {
+    std::set<ze::GroupId>* ids = &this->groupsByGameObj.at(gameObj);
+    while (!ids->empty()) {
+        this->rmvFromGroup(
+            gameObj,
+            ids->extract(ids->begin()).value()
+        );
+    }
 }
+
+
+
+bool ze::GroupPool::collideGroup(ze::GameObj* obj, const ze::GroupId id) {
+    const ze::Rect r1 = obj->rect.shrink(obj->boxCollideScale);
+    const std::set<ze::GameObj*>* objs = this->groupMap.at(id)->getAll();
+    return std::any_of(
+        objs->begin(), objs->end(),
+        [&r1](const ze::GameObj* otherObj) {
+            return ze::Rect::collide(r1, otherObj->rect.shrink(otherObj->boxCollideScale));
+        }
+    );
+}
+
