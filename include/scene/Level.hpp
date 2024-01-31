@@ -1,32 +1,26 @@
-#ifndef F4D1D92D_F79E_48A8_B448_AFC6726F79AA
-#define F4D1D92D_F79E_48A8_B448_AFC6726F79AA
-#include <iostream>
+#ifndef A5307EEF_5A69_477E_81F1_8FF70364286B
+#define A5307EEF_5A69_477E_81F1_8FF70364286B
 #include "Scene.hpp"
 #include "../ecs/GameObjPool.hpp"
-#include "../window/Camera.hpp"
-#include "../util/util.hpp"
+#include "../ecs/components.hpp"
 
 
 namespace ze {
 
-    
-    class Level : public ze::Scene {
+
+    class Level : public Scene {
 
         private:
-            std::unique_ptr<ze::GameObjPool> gameObjPool = std::make_unique<ze::GameObjPool>();
-
-        private:
-            void handleCollide();
+            ze::GameObjPool gameObjPool;
 
         public:
-            Level(const ze::ChangeScene& changeScene);
+            Level(const ChangeScene& changeScene);
             void update(float dt) override;
             void draw(sf::RenderWindow& window) override;
 
     };
-
     
-} // namespace ze 
+} // namespace st
 
 
-#endif /* F4D1D92D_F79E_48A8_B448_AFC6726F79AA */
+#endif /* A5307EEF_5A69_477E_81F1_8FF70364286B */

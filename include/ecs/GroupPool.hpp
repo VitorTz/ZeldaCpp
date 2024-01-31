@@ -1,6 +1,8 @@
-#ifndef D3B581ED_15A7_4CA5_A052_D8E0B061E568
-#define D3B581ED_15A7_4CA5_A052_D8E0B061E568
+#ifndef D20CC6E7_E984_4F71_8464_E73E6A011553
+#define D20CC6E7_E984_4F71_8464_E73E6A011553
 #include "Group.hpp"
+#include "../window/Camera.hpp"
+#include <map>
 
 
 namespace ze {
@@ -13,19 +15,15 @@ namespace ze {
             std::map<ze::GameObj*, std::set<ze::GroupId>> groupsByGameObj;
         
         public:
-            GroupPool() { for (const ze::GroupId id : ze::allGroupsIds) create(id); };
-            inline void create(ze::GroupId id) { groupMap.insert({id, std::make_unique<ze::Group>(id)}); }
-            inline void create(std::unique_ptr<ze::Group> group) { groupMap.insert({group->id, std::move(group)}); }
-            inline ze::Group* get(const ze::GroupId id) { return groupMap.at(id).get(); }
-            void addToGroup(ze::GameObj* obj, const ze::GroupId id);
-            void addToGroup(ze::GameObj* obj, const std::vector<ze::GroupId>& ids);
-            void rmvFromGroup(ze::GameObj* obj, const ze::GroupId id);
-            void rmvFromAllGroups(ze::GameObj* obj);
-            bool collideGroup(ze::GameObj* obj, ze::GroupId id);
+            GroupPool();
+            void addToGroup(ze::GameObj* gameObj, ze::GroupId id);
+            void rmvFromGroup(ze::GameObj* gameObj, ze::GroupId id);
+            void rmvFromAllGroups(ze::GameObj* gameObj);
+            ze::Group* get(ze::GroupId id);
 
     };
     
 } // namespace ze
 
 
-#endif /* D3B581ED_15A7_4CA5_A052_D8E0B061E568 */
+#endif /* D20CC6E7_E984_4F71_8464_E73E6A011553 */

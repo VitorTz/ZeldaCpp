@@ -1,142 +1,83 @@
 #include "../../include/util/Rect.hpp"
 
 
-void ze::Rect::moveHorizontal(const float x) {
-    this->pos.x += x;
-}
-
-
-void ze::Rect::moveVertical(const float y) {
-    this->pos.y += y;
-}
-
-
-void ze::Rect::move(sf::Vector2f distance) {
-    this->pos += distance;
-}
-
-
-sf::Vector2f ze::Rect::getPos() const {
-    return this->pos;
-}
-
-
-sf::Vector2f ze::Rect::getSize() const {
-    return this->size;
-}
-
-
-
-void ze::Rect::setPos(sf::Vector2f pos_) {
-    this->pos = pos_;
-}
-
-
-void ze::Rect::setSize(sf::Vector2f size_) {
-    this->size = size_;
-}
-
 
 float ze::Rect::left() const {
-    return this->pos.x;
+    return pos.x;
 }
 
 
 float ze::Rect::right() const {
-    return this->pos.x + this->size.x;
-}
-
-
-float ze::Rect::bottom() const {
-    return this->pos.y + this->size.y;
+    return pos.x + size.x;
 }
 
 
 float ze::Rect::top() const {
-    return this->pos.y;
+    return pos.y;
 }
 
 
-void ze::Rect::setLeft(float left) {
-    this->pos.x = left;
+float ze::Rect::bottom() const {
+    return pos.y + size.y;
 }
 
 
-void ze::Rect::setRight(float right) {
-    this->pos.x = right - this->size.x;
+void ze::Rect::setLeft(const float l) {
+    pos.x = l;
 }
 
 
-void ze::Rect::setBottom(float bottom) {
-    this->pos.y = bottom - this->size.y;
+void ze::Rect::setTop(const float t) {
+    pos.y = t;
 }
 
 
-void ze::Rect::setTop(float top) {
-    this->pos.y = top;
+void ze::Rect::setBottom(const float b) {
+    pos.y = b - size.y;
+}
+
+
+void ze::Rect::setRight(const float r) {
+    pos.x = r - size.x;
 }
 
 
 sf::Vector2f ze::Rect::center() const {
-    return {this->pos.x + this->size.x / 2, this->pos.y + this->size.y / 2};
-}
-
-
-void ze::Rect::setCenter(sf::Vector2f center) {
-    this->pos.x = center.x - this->size.x / 2;
-    this->pos.y = center.y - this->size.y / 2;
+    return {pos.x + size.x / 2, pos.y + size.y / 2};
 }
 
 
 float ze::Rect::centerX() const {
-    return this->pos.x + this->size.x / 2;
+    return pos.x + size.x / 2;
 }
 
 
 float ze::Rect::centerY() const {
-    return this->pos.y + this->size.y / 2;
+    return pos.y + size.y / 2;
 }
 
 
-void ze::Rect::setCenterX(float x_) {
-    this->pos.x = x_ - this->size.x / 2;
+void ze::Rect::setCenterX(const float x) {
+    pos.x = x - size.x / 2;
 }
 
 
-void ze::Rect::setCenterY(float y_) {
-    this->pos.y = y_ - this->size.y / 2;
+void ze::Rect::setCenterY(const float y) {
+    pos.y = y - size.y / 2;
 }
 
 
 float ze::Rect::width() const {
-    return this->size.x;
+    return size.x;
 }
 
 
 float ze::Rect::height() const {
-    return this->size.y;
+    return size.y;
 }
 
 
-void ze::Rect::setWidth(float width) {
-    this->size.x = width;
-}
-
-
-void ze::Rect::setHeight(float height) {
-    this->size.y = height;
-}
-
-
-ze::Rect ze::Rect::shrink(const sf::Vector2f scale) const {
-    ze::Rect r;
-    r.setSize({this->size.x * scale.x, this->size.y * scale.y});
-    r.setCenter(this->center());
-    return r;
-}
-
-
-bool ze::Rect::collide(const ze::Rect &r1, const ze::Rect &r2) {
+bool ze::Rect::collide(const ze::Rect& r1, const ze::Rect& r2) {
     if (r1.left() > r2.right() || r1.right() < r2.left()) {
         return false;
     }

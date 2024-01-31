@@ -1,9 +1,7 @@
 #include "../../include/util/TexturePool.hpp"
 
 
-
-std::map<std::filesystem::path, std::unique_ptr<sf::Texture>> ze::TexturePool::textureMap;
-
+ze::TextureMap ze::TexturePool::textureMap;
 
 
 void ze::TexturePool::load(sf::Sprite* sprite, const std::filesystem::path& source) {
@@ -18,4 +16,9 @@ void ze::TexturePool::load(sf::Sprite* sprite, const std::filesystem::path& sour
         pair->second->loadFromFile(source);
     }
     sprite->setTexture(*ze::TexturePool::textureMap.at(source).get());
+}
+
+
+void ze::TexturePool::erase(const std::filesystem::path& source) {
+    ze::TexturePool::textureMap.erase(source);
 }

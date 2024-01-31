@@ -1,8 +1,8 @@
-#ifndef C2423835_EA79_479E_91AF_EDBA36464A25
-#define C2423835_EA79_479E_91AF_EDBA36464A25
+#ifndef B51AB959_CC80_44A1_A16A_27AD7F368788
+#define B51AB959_CC80_44A1_A16A_27AD7F368788
 #include <filesystem>
-#include "../ecs.hpp"
 #include "../../util/TexturePool.hpp"
+#include "../GameObj.hpp"
 
 
 namespace ze {
@@ -11,21 +11,18 @@ namespace ze {
     class Sprite : public ze::Component {
 
         private:
-            const std::filesystem::path source;
+            std::filesystem::path source;
             sf::Sprite sprite;
 
         public:
-            Sprite(
-                const std::filesystem::path& source
-            ) : ze::Component("Sprite-" + source.string()),
-                source(source) { ze::TexturePool::load(&this->sprite, this->source); } 
-            ~Sprite() { ze::TexturePool::erase(this->source); };
+            Sprite(const std::filesystem::path& source);
+            virtual ~Sprite();
             void draw(sf::RenderWindow& window) override;
-            void setGameObj(ze::GameObj* obj) override;
+            void setGameObj(ze::GameObj* gameObj) override;
 
     };
     
 } // namespace ze
 
 
-#endif /* C2423835_EA79_479E_91AF_EDBA36464A25 */
+#endif /* B51AB959_CC80_44A1_A16A_27AD7F368788 */

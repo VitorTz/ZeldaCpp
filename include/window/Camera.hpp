@@ -1,9 +1,11 @@
-#ifndef BE5465FC_6F23_47C3_B690_1F623FCB007E
-#define BE5465FC_6F23_47C3_B690_1F623FCB007E
-#include "../ecs/Group.hpp"
-#include "../constants.hpp"
+#ifndef BB158CDF_84EC_4608_B958_6E4E8880B3B7
+#define BB158CDF_84EC_4608_B958_6E4E8880B3B7
 #include <algorithm>
 #include <vector>
+#include <map>
+#include "../ecs/Group.hpp"
+#include "../constants.hpp"
+
 
 namespace ze {
 
@@ -11,21 +13,22 @@ namespace ze {
     class Camera : public ze::Group {
 
         private:
-            static void sortObjByCenterY(std::vector<ze::GameObj*>* v);
-
+            std::map<int, std::vector<ze::GameObj*>> objsByIndex;
+        
         private:
-            std::map<int, std::vector<ze::GameObj*>> gameObjByIndex;
+            static void sortByYpos(std::vector<ze::GameObj*>& v);
 
         public:
-            Camera() : ze::Group(ze::GroupId::CameraGroup) { }
-            void draw(sf::RenderWindow& window, const sf::Vector2f offset);
-            void add(ze::GameObj* obj) override;
-            void erase(ze::GameObj* obj) override;            
-            void update([[maybe_unused]] float dt) override { }
+            Camera(Camera&& ) = default;
+            Camera();
+            void insert(ze::GameObj* gameObj) override;
+            void erase(ze::GameObj* gameObj) override;
+            void rmvFromCamera(ze::GameObj* gameObj);
+            void draw(sf::RenderWindow& window, sf::Vector2f offset);
 
     };
     
 } // namespace ze
 
 
-#endif /* BE5465FC_6F23_47C3_B690_1F623FCB007E */
+#endif /* BB158CDF_84EC_4608_B958_6E4E8880B3B7 */

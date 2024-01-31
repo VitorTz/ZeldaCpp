@@ -1,66 +1,39 @@
 #include "../../include/scene/Level.hpp"
-#include <iostream>
 
 
 ze::Level::Level(
     const ze::ChangeScene& changeScene
-) : ze::Scene(ze::SceneId::LevelId, changeScene) {
-    this->gameObjPool->groupPool->create(std::make_unique<ze::Camera>());
-    
-    // ground
-    this->gameObjPool->create(
-        "Ground", 
-        -1, 
-        {ze::GroupId::CameraGroup},
-        std::make_unique<ze::Sprite>("res/graphics/tilemap/ground.png")
-    );    
+) : ze::Scene(ze::SceneId::LevelSceneId, changeScene) {    
 
-    // player
-    this->gameObjPool->create(
-        "Player",
-        2,
+    this->gameObjPool.create(
+        "Ground",
+        ze::Zindex::GroundIndex,
         {ze::GroupId::CameraGroup},
-        std::make_unique<ze::Player>()
+        std::make_unique<ze::Sprite>("/mnt/HD/Programs/vitor/ZeldaCpp/res/graphics/tilemap/ground.png")
+    );
+    
+    this->gameObjPool.create(
+        "Player", 
+        ze::Zindex::PlayerIndex, 
+        {ze::GroupId::AllGroup, ze::GroupId::CameraGroup},
+        std::make_unique<ze::Sprite>("/mnt/HD/Programs/vitor/ZeldaCpp/res/graphics/player/down_idle/idle_down.png")
     );
 
-    // trees
-    for (int i = 0; i < 25; i++) {
-        const std::string name = "Tree-" + std::to_string(i);
-        this->gameObjPool->create(
-            name,
-            2,
-            {ze::GroupId::CameraGroup, ze::GroupId::CollideGroup},
-            std::make_unique<ze::Sprite>("res/graphics/objects/01.png")
-        );
-        ze::GameObj* tree = this->gameObjPool->get(name);
-        tree->rect.setPos(
-            {
-                static_cast<float>(ze::randomInt(0, ze::SCREEN_WIDTH)),
-                static_cast<float>(ze::randomInt(0, ze::SCREEN_HEIGHT))
-            }
-        );
-    }
+    ze::GameObj* player = this->gameObjPool.get("Player");
+    player->direction = {1.f, 1.f};
+    player->speed = 250.f;
     
 }
 
 
-
-void ze::Level::handleCollide() {
-    ze::GameObj* player = this->gameObjPool->get("Player");
-    if (this->gameObjPool->groupPool->collideGroup(player, ze::GroupId::CollideGroup)) {
-        player->undoLastMovement();
-    }
-}
-
-
-void ze::Level::update(float dt) {
-    this->gameObjPool->groupPool->get(ze::GroupId::AllGroup)->update(dt);
-    this->handleCollide();
+void ze::Level::update(const float dt) {
+    this->gameObjPool.get("Player")->move(dt);
+    this->gameObjPool.getGroup(ze::GroupId::AllGroup)->update(dt);
 }
 
 
 void ze::Level::draw(sf::RenderWindow& window) {
-    auto* camera = (ze::Camera*) this->gameObjPool->groupPool->get(ze::GroupId::CameraGroup);
-    ze::GameObj* player = this->gameObjPool->get("Player");
+    ze::Camera* camera = (ze::Camera*) this->gameObjPool.getGroup(ze::GroupId::CameraGroup);
+    ze::GameObj* player = this->gameObjPool.get("Player");    
     camera->draw(window, player->rect.center());
 }

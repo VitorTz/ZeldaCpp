@@ -1,56 +1,39 @@
 #include "../../include/ecs/GroupPool.hpp"
 
 
-
-
-void ze::GroupPool::addToGroup(
-    ze::GameObj* obj,
-    const ze::GroupId id
-) {
-    if (this->groupsByGameObj.find(obj) == this->groupsByGameObj.end()) {
-        this->groupsByGameObj.insert({obj, {}});
+ze::GroupPool::GroupPool() {
+    for (const ze::GroupId id : ze::allGroups) {
+        this->groupMap.insert({id, std::make_unique<ze::Group>(id)});
     }
-    this->groupMap.at(id)->add(obj);
-    this->groupsByGameObj.at(obj).insert(id);
+    this->groupMap.insert({ze::GroupId::CameraGroup, std::make_unique<ze::Camera>()});
 }
 
 
-void ze::GroupPool::addToGroup(
-    ze::GameObj* obj, 
-    const std::vector<ze::GroupId>& ids
-) {
-    for (const ze::GroupId id : ids) {
-        this->addToGroup(obj, id);
+
+void ze::GroupPool::addToGroup(ze::GameObj* gameObj, const ze::GroupId id) {
+    if (groupsByGameObj.find(gameObj) == groupsByGameObj.end()) {
+        groupsByGameObj.insert({gameObj, {}});
     }
+    groupsByGameObj.at(gameObj).insert(id);
+    groupMap.at(id)->insert(gameObj);    
 }
 
 
-void ze::GroupPool::rmvFromGroup(ze::GameObj* obj, const ze::GroupId id) {
-    this->groupsByGameObj.at(obj).erase(id);
-    this->groupMap.at(id)->erase(obj);
+void ze::GroupPool::rmvFromGroup(ze::GameObj* gameObj, const ze::GroupId id) {
+    groupsByGameObj.at(gameObj).erase(id);
+    groupMap.at(id)->erase(gameObj);
 }
 
 
 void ze::GroupPool::rmvFromAllGroups(ze::GameObj* gameObj) {
-    std::set<ze::GroupId>* ids = &this->groupsByGameObj.at(gameObj);
-    while (!ids->empty()) {
-        this->rmvFromGroup(
-            gameObj,
-            ids->extract(ids->begin()).value()
-        );
+    std::set<ze::GroupId>* ids = &groupsByGameObj.at(gameObj);
+    for (const ze::GroupId id : *ids) {
+        groupMap.at(id)->erase(gameObj);        
     }
+    ids->clear();
 }
 
 
-
-bool ze::GroupPool::collideGroup(ze::GameObj* obj, const ze::GroupId id) {
-    const ze::Rect r1 = obj->rect.shrink(obj->boxCollideScale);
-    const std::set<ze::GameObj*>* objs = this->groupMap.at(id)->getAll();
-    return std::any_of(
-        objs->begin(), objs->end(),
-        [&r1](const ze::GameObj* otherObj) {
-            return ze::Rect::collide(r1, otherObj->rect.shrink(otherObj->boxCollideScale));
-        }
-    );
+ze::Group* ze::GroupPool::get(const ze::GroupId id) {
+    return this->groupMap.at(id).get();    
 }
-

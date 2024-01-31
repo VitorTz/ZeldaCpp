@@ -1,11 +1,11 @@
 CXX      := -c++
 CXXFLAGS := -Wall -Wextra -O3 -pedantic
-LDFLAGS  :=  -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS  := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
 APP_DIR  := $(BUILD)/apps
 SRC_DIRS ?= ./src
-TARGET   := zelda.out
+TARGET   := a.out
 INCLUDE  := 
 SRC      := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 

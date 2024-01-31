@@ -1,21 +1,18 @@
-#ifndef A48CED4B_BB97_4365_AF97_4156BBA77CDC
-#define A48CED4B_BB97_4365_AF97_4156BBA77CDC
+#ifndef F9ECA34D_BE48_43DD_9FF6_FBBE2170DA5A
+#define F9ECA34D_BE48_43DD_9FF6_FBBE2170DA5A
 #include <SFML/Graphics.hpp>
 #include <functional>
-#include "../ecs/components.hpp"
 
 
 namespace ze {
 
-
     enum SceneId {
-        LevelId
+        LevelSceneId
     };
 
+    const SceneId mainScene = SceneId::LevelSceneId;
 
     typedef std::function<void(SceneId)> ChangeScene;
-
-    const SceneId mainScene = SceneId::LevelId;
 
     class Scene {
 
@@ -28,14 +25,13 @@ namespace ze {
         public:
             Scene(SceneId id, const ChangeScene& changeScene) : id(id), changeScene(changeScene) { }
             virtual ~Scene() = default;
-            virtual void update(float dt) = 0;
-            virtual void draw(sf::RenderWindow& window) = 0;
+            virtual void update([[maybe_unused]] float dt) { }
+            virtual void draw([[maybe_unused]] sf::RenderWindow& window) { }
 
     };
-
     
-} // namespace ze
+} // namespace st
 
 
 
-#endif /* A48CED4B_BB97_4365_AF97_4156BBA77CDC */
+#endif /* F9ECA34D_BE48_43DD_9FF6_FBBE2170DA5A */
