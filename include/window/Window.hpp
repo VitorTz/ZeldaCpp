@@ -1,10 +1,8 @@
-#ifndef D5FC8966_D223_476A_A92A_E8A0F156F35A
-#define D5FC8966_D223_476A_A92A_E8A0F156F35A
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "../scene/scenes.hpp"
 #include "../constants.hpp"
-
+#include "../scene/scenes.hpp"
 
 namespace ze {
 
@@ -14,21 +12,19 @@ namespace ze {
         private:
             sf::RenderWindow window;
             sf::Clock clock;
-            ze::ChangeScene changeScene;
             std::unique_ptr<ze::Scene> scene;
+            ze::ChangeScene changeScene;
         
         private:
-            void checkEvents();
+            void initGame();
+            void handleEvents();
             void update();
             void render();
-
+        
         public:
             Window();
             void run();
 
     };
     
-} // namespace st
-
-
-#endif /* D5FC8966_D223_476A_A92A_E8A0F156F35A */
+} // namespace ze

@@ -1,7 +1,6 @@
 #include "../../include/window/Window.hpp"
 
 
-
 ze::Window::Window(
 
 ) : window(
@@ -9,34 +8,44 @@ ze::Window::Window(
     ze::SCREEN_TITLE,
     sf::Style::Close | sf::Style::Titlebar
 ) {
-    this->window.setFramerateLimit(ze::FPS);
+    window.setFramerateLimit(ze::FPS);
+    
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    this->window.setPosition(
+    window.setPosition(
         sf::Vector2i(
             desktop.width / 2 - ze::SCREEN_WIDTH / 2,
             desktop.height / 2 - ze::SCREEN_HEIGHT / 2
         )
     );
-    this->changeScene = [this](const ze::SceneId id) {
+
+    changeScene = [this](const ze::SceneId id) {
         switch (id) {
-            case ze::SceneId::LevelSceneId:
-                this->scene = std::make_unique<ze::Level>(this->changeScene);
-                break;            
+            case ze::SceneId::LevelScene:
+                scene = std::make_unique<ze::Level>(this->changeScene);
+                break;
             default:
                 break;
         }
     };
-    this->changeScene(ze::mainScene);
+    
+    initGame();
+
 }
 
 
-void ze::Window::checkEvents() {
+void ze::Window::initGame() {
+    ze::Ecs::init();
+    changeScene(ze::mainScene);
+}
+
+
+void ze::Window::handleEvents() {
     sf::Event e;
 
-    while (this->window.pollEvent(e)) {
+    while (window.pollEvent(e)) {
         switch (e.type) {
             case sf::Event::Closed:
-                this->window.close();
+                window.close();
                 break;
             default:
                 break;
@@ -46,22 +55,22 @@ void ze::Window::checkEvents() {
 
 
 void ze::Window::update() {
-    const float dt = this->clock.restart().asSeconds();
-    this->scene->update(dt);
+    const float dt = clock.restart().asSeconds();
+    scene->update(dt);
 }
 
 
 void ze::Window::render() {
-    this->window.clear();
-    this->scene->draw(this->window);
-    this->window.display();
+    window.clear();
+    scene->draw(window);
+    window.display();
 }
 
 
 void ze::Window::run() {
-    while (this->window.isOpen()) {
-        this->checkEvents();
-        this->update();
-        this->render();
+    while (window.isOpen()) {
+        handleEvents();
+        update();
+        render();
     }
 }

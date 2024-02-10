@@ -1,67 +1,59 @@
-#ifndef C05CEE60_0F94_49FE_8FF0_7205807561DC
-#define C05CEE60_0F94_49FE_8FF0_7205807561DC
+#pragma once
 #include <SFML/Graphics.hpp>
+#include <string>
 #include <memory>
 #include <map>
-#include <string>
-#include "../util/Rect.hpp"
-#include "../util/zIndex.hpp"
-#include "../util/util.hpp"
-#include "../util/GameObjState.hpp"
+#include <set>
+#include "../util/Transform.hpp"
 
 
 namespace ze {
 
+
     class GameObj;
 
+
     class Component {
-
-        protected:
-            ze::GameObj* gameObj = nullptr;
-
+        
         public:
             const std::string name;
-
+        
+        protected:
+            ze::GameObj* gameObj;
+        
         public:
-            explicit Component(std::string name_) : name(std::move(name_)) { }
+            Component(Component&& ) = default;
+            Component(
+                std::string name_
+            ) : name(std::move(name_)), 
+                gameObj(nullptr) { }
             virtual ~Component() = default;
-            virtual void update([[maybe_unused]] const float dt) { }
+            virtual void update([[maybe_unused]] float dt) { }
             virtual void draw([[maybe_unused]] sf::RenderWindow& window) { }
-            virtual void setGameObj(ze::GameObj* gameObj_) { this->gameObj = gameObj_; }
+            virtual void setGameObj(ze::GameObj* gameObj_) { gameObj = gameObj_; }
 
     };
+
 
     class GameObj {
 
+        public:
+            const std::string name;
+            const int zIndex;
+            ze::Transform transform;
+        
         private:
             std::map<std::string, std::unique_ptr<ze::Component>> componentMap;
-            sf::Vector2f lastMovement;
         
         public:
-
-            const std::string name;
-            const ze::Zindex zIndex;
-            sf::Vector2f direction;
-            ze::Rect rect;
-            float speed = 0;
-            float rotation = 0;
-            ze::GameObjState state = ze::GameObjState::DownIdle;
-            sf::Vector2f scale = {1.f, 1.f};
-            bool isVisible = true;        
-        
-        public:
-
-            GameObj(std::string name_, ze::Zindex zIndex_) : name(std::move(name_)), zIndex(zIndex_) { } 
+            GameObj(std::string name_, const int zIndex);
+            ~GameObj() = default;
+            void addComponent(std::unique_ptr<ze::Component> c);
+            ze::Component* getComponent(const std::string& componentName);
             void update(float dt);
             void draw(sf::RenderWindow& window);
-            void addComponent(std::unique_ptr<ze::Component> c);
-            void move(float dt);
-            void undoLastMovement();
-            ze::Component* getComponent(const std::string& name);
 
     };
+
     
-} // namespace ze 
-
-
-#endif /* C05CEE60_0F94_49FE_8FF0_7205807561DC */
+} // namespace ze

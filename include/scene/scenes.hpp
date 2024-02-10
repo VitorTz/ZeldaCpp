@@ -1,9 +1,5 @@
-#ifndef BC60EB03_B20E_4DC0_AA20_C6EAD9AF227B
-#define BC60EB03_B20E_4DC0_AA20_C6EAD9AF227B
+#pragma once
 
 
 #include "Scene.hpp"
 #include "Level.hpp"
-
-
-#endif /* BC60EB03_B20E_4DC0_AA20_C6EAD9AF227B */
