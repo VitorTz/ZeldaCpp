@@ -1,11 +1,7 @@
 #include "../../include/window/Camera.hpp"
 
 
-ze::Camera::Camera(
-
-) : ze::Group(ze::GroupId::CameraGroup) {
-
-}
+ze::Camera::Camera() : ze::Group(ze::GroupId::CameraGroup) { }
 
 
 void ze::Camera::insert(ze::GameObj* obj) {
@@ -13,14 +9,7 @@ void ze::Camera::insert(ze::GameObj* obj) {
     if (objMap.find(zIndex) == objMap.end()) {
         objMap.insert({zIndex, {}});
     }
-    objMap.at(zIndex).push_back(obj);
-}
-
-
-void ze::Camera::insert(
-    const std::unique_ptr<ze::GameObj>& obj
-) {
-    insert(obj.get());
+    objMap.at(zIndex).push_back(obj);    
 }
 
 
@@ -42,14 +31,19 @@ void ze::Camera::clear() {
 
 void ze::Camera::sortObjsByCenterY(std::vector<ze::GameObj*>& v) {
     std::sort(
-        v.begin(), v.end()
+        v.begin(), v.end(),
+        [](ze::GameObj* g1, ze::GameObj* g2) {
+            const float g1Y = g1->transform.centerY();
+            const float g2Y = g2->transform.centerY();
+            return g1Y == g2Y ? g1 < g2 : g1Y < g2Y;
+        }
     );
 }
 
 
 void ze::Camera::draw(sf::RenderWindow& window, const sf::Vector2f offset) {
     const sf::Vector2f cameraOffset = offset - ze::SCREEN_CENTER;    
-    for (auto& [index, objs] : objMap) {
+    for (auto& [index, objs] : objMap) {        
         ze::Camera::sortObjsByCenterY(objs);
         for (ze::GameObj* obj : objs) {
             obj->transform.move(-cameraOffset);

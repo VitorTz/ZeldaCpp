@@ -5,6 +5,8 @@
 #include <map>
 #include <set>
 #include "../util/Transform.hpp"
+#include "../util/util.hpp"
+#include "../constants.hpp"
 
 
 namespace ze {

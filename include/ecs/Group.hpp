@@ -1,6 +1,6 @@
 #pragma once
-#include <set>
 #include <vector>
+#include <set>
 #include "GameObj.hpp"
 
 
@@ -13,8 +13,7 @@ namespace ze {
     };
 
     const std::vector<ze::GroupId> groupsIds = {        
-        ze::GroupId::CollideGroup,
-        ze::GroupId::CameraGroup
+        ze::GroupId::CollideGroup        
     };
 
 
@@ -29,15 +28,11 @@ namespace ze {
         public:
             Group(const ze::GroupId id) : id(id) { }
             virtual ~Group() = default;
-            virtual void insert(ze::GameObj* obj) { objs.insert(obj); };
-            virtual void insert(const std::unique_ptr<ze::GameObj>& obj) { objs.insert(obj.get()); }
+            virtual void insert(ze::GameObj* obj) { objs.insert(obj); };            
             virtual void erase(ze::GameObj* obj) { objs.erase(obj); };
             virtual void clear() { objs.clear(); };
-            virtual std::set<ze::GameObj*>* getAll() { return &objs; }
-            virtual void update(const float dt) {
-                for (const auto& obj : objs) 
-                    obj->update(dt);
-            }
+            virtual std::set<ze::GameObj*>* getAll() { return &objs; }            
+            std::size_t size() const { return objs.size(); }
 
     };
     

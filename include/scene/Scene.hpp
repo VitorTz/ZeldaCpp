@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <functional>
 #include "../ecs/Ecs.hpp"
+#include "../ecs/components.hpp"
 
 
 namespace ze {

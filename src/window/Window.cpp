@@ -34,7 +34,6 @@ ze::Window::Window(
 
 
 void ze::Window::initGame() {
-    ze::Ecs::init();
     changeScene(ze::mainScene);
 }
 

@@ -12,7 +12,7 @@ namespace ze {
             sf::Vector2f size;
             sf::Vector2f boxCollideScale = {1.f, 1.f};
             sf::Vector2f direction;
-            float scale = 1.f;
+            sf::Vector2f scale = {1.f, 1.f};
             float rotation = 0.f;
             float speed = 0.f;
         
@@ -23,7 +23,7 @@ namespace ze {
                 sf::Vector2f size,
                 sf::Vector2f boxCollideScale,
                 sf::Vector2f direction,
-                float scale,
+                sf::Vector2f scale,
                 float rotation,
                 float speed
             );

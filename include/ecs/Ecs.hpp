@@ -1,37 +1,59 @@
 #pragma once
 #include "Group.hpp"
+#include "../window/Camera.hpp"
 
 
 namespace ze {
 
+    class GroupPool {
+
+        private:
+            std::map<ze::GroupId, std::unique_ptr<ze::Group>> groupMap;
+            std::map<ze::GameObj*, std::set<ze::GroupId>> groupByGameObj;
+        
+        public:
+            GroupPool();
+            void addToGroup(ze::GameObj* gameObj, ze::GroupId id);
+            void rmvFromGroup(ze::GameObj* gameObj, ze::GroupId id);            
+            void rmvGameObj(ze::GameObj* gameObj);
+            ze::Group* at(ze::GroupId id);
+            std::set<ze::GroupId>* getGroupsByGameObj(ze::GameObj* gameObj);
+            bool collideGroup(ze::GameObj* gameObj, ze::GroupId id);
+
+    };
+
+
+    class GameObjPool {
+
+        private:
+            std::map<std::string, std::unique_ptr<ze::GameObj>> allObjs;
+            
+        public:
+            GameObjPool() = default;
+            ze::GameObj* insert(
+                const std::string& name,
+                int zIndex,
+                ze::GroupPool* groupPool,
+                const std::vector<ze::GroupId>& groups
+            );
+            ze::GameObj* at(const std::string& name);
+            void erase(ze::GameObj* gameObj, ze::GroupPool* groupPool);
+            void erase(const std::string& name, ze::GroupPool* groupPool);
+            void update(float dt);
+            std::size_t size() const;
+
+    };
+
 
     class Ecs {
 
-        private:
-            static std::map<ze::GroupId, std::unique_ptr<ze::Group>> groupMap;
-            static std::map<std::string, std::unique_ptr<ze::GameObj>> allObjs;
-            static std::map<ze::GameObj*, std::set<ze::GroupId>> groupByGameObj;
-
         public:
-            static void init();
-            static void createGroup(ze::GroupId id);
-            static void createGroup(std::unique_ptr<ze::Group> group);
-            static ze::Group* getGroup(ze::GroupId id);
+            static std::unique_ptr<ze::GroupPool> groupPool;
+            static std::unique_ptr<ze::GameObjPool> gameObjPool;
 
-            static void createGameObj(
-                const std::string& name, 
-                int zIndex,
-                const std::vector<ze::GroupId>& groups
-            );
-
-            static ze::GameObj* getGameObj(const std::string& name);
-
-            static void deleteGameObj(ze::GameObj* gameObj);
-            static bool collideGroup(ze::GameObj* gameObj, ze::GroupId id);
-
-            static void rmvFromGroup(ze::GameObj* gameObj, ze::GroupId id);
-            static void addToGroup(ze::GameObj* gameObj, ze::GroupId id);
-        
     };
+
+
+
     
 } // namespace ze

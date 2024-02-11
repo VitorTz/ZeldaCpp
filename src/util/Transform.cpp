@@ -6,7 +6,7 @@ ze::Transform::Transform(
     const sf::Vector2f size,
     const sf::Vector2f boxCollideScale,
     const sf::Vector2f direction,
-    const float scale,
+    const sf::Vector2f scale,
     const float rotation,
     const float speed
 ) : pos(pos),

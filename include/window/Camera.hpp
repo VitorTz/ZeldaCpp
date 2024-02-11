@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <vector>
 #include "../ecs/Group.hpp"
-#include "../constants.hpp"
 
 
 namespace ze {
@@ -17,7 +16,6 @@ namespace ze {
         public:
             Camera();
             void insert(ze::GameObj* obj) override;
-            void insert(const std::unique_ptr<ze::GameObj>& obj) override;
             void erase(ze::GameObj* obj) override;     
             void clear() override;
             void draw(sf::RenderWindow& window, const sf::Vector2f offset);
