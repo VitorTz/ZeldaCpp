@@ -23,7 +23,9 @@ set(OLD_GLOB
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/constants.h"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/globals.h"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/scene.h"
+  "/mnt/HD/Programs/vitor/ZeldaCpp/src/sprite.h"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/texture_pool.h"
+  "/mnt/HD/Programs/vitor/ZeldaCpp/src/types.h"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/util.h"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
