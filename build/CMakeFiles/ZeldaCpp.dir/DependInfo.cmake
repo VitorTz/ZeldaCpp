@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/mnt/HD/Programs/vitor/ZeldaCpp/src/globals.cpp" "CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o" "gcc" "CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o.d"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/main.cpp" "CMakeFiles/ZeldaCpp.dir/src/main.cpp.o" "gcc" "CMakeFiles/ZeldaCpp.dir/src/main.cpp.o.d"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/scene_level.cpp" "CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o" "gcc" "CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o.d"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/scene_title_screen.cpp" "CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o" "gcc" "CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o.d"

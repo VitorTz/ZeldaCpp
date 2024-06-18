@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <memory>
 #include "constants.h"
+#include "globals.h"
 #include "scene.h"
 
 
@@ -8,6 +9,7 @@ int main(int argc, char const *argv[]) {
     SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(ZE_SCREEN_WIDTH, ZE_SCREEN_HEIGHT, ZE_WINDOW_TITLE);
     
+    ze::globals::init();
     ze::SceneId scene_id = ze::TitleScreenId;
     bool should_change_scene = false;
 
@@ -45,6 +47,7 @@ int main(int argc, char const *argv[]) {
     }
 
     scene.reset(nullptr);
+    ze::globals::close();
     ze::gTexturePool.clear();
     CloseWindow();
 

@@ -5,6 +5,7 @@ cmake_policy(SET CMP0009 NEW)
 # sources at CMakeLists.txt:16 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/mnt/HD/Programs/vitor/ZeldaCpp/src/*.cpp")
 set(OLD_GLOB
+  "/mnt/HD/Programs/vitor/ZeldaCpp/src/globals.cpp"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/main.cpp"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/scene_level.cpp"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/scene_title_screen.cpp"
@@ -20,6 +21,7 @@ endif()
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/mnt/HD/Programs/vitor/ZeldaCpp/src/*.h")
 set(OLD_GLOB
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/constants.h"
+  "/mnt/HD/Programs/vitor/ZeldaCpp/src/globals.h"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/scene.h"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/texture_pool.h"
   "/mnt/HD/Programs/vitor/ZeldaCpp/src/util.h"

@@ -69,10 +69,24 @@ include CMakeFiles/ZeldaCpp.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/ZeldaCpp.dir/flags.make
 
+CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o: CMakeFiles/ZeldaCpp.dir/flags.make
+CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o: /mnt/HD/Programs/vitor/ZeldaCpp/src/globals.cpp
+CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o: CMakeFiles/ZeldaCpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o -MF CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o.d -o CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o -c /mnt/HD/Programs/vitor/ZeldaCpp/src/globals.cpp
+
+CMakeFiles/ZeldaCpp.dir/src/globals.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ZeldaCpp.dir/src/globals.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/HD/Programs/vitor/ZeldaCpp/src/globals.cpp > CMakeFiles/ZeldaCpp.dir/src/globals.cpp.i
+
+CMakeFiles/ZeldaCpp.dir/src/globals.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ZeldaCpp.dir/src/globals.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/HD/Programs/vitor/ZeldaCpp/src/globals.cpp -o CMakeFiles/ZeldaCpp.dir/src/globals.cpp.s
+
 CMakeFiles/ZeldaCpp.dir/src/main.cpp.o: CMakeFiles/ZeldaCpp.dir/flags.make
 CMakeFiles/ZeldaCpp.dir/src/main.cpp.o: /mnt/HD/Programs/vitor/ZeldaCpp/src/main.cpp
 CMakeFiles/ZeldaCpp.dir/src/main.cpp.o: CMakeFiles/ZeldaCpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ZeldaCpp.dir/src/main.cpp.o -MF CMakeFiles/ZeldaCpp.dir/src/main.cpp.o.d -o CMakeFiles/ZeldaCpp.dir/src/main.cpp.o -c /mnt/HD/Programs/vitor/ZeldaCpp/src/main.cpp
 
 CMakeFiles/ZeldaCpp.dir/src/main.cpp.i: cmake_force
@@ -86,7 +100,7 @@ CMakeFiles/ZeldaCpp.dir/src/main.cpp.s: cmake_force
 CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o: CMakeFiles/ZeldaCpp.dir/flags.make
 CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o: /mnt/HD/Programs/vitor/ZeldaCpp/src/scene_level.cpp
 CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o: CMakeFiles/ZeldaCpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o -MF CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o.d -o CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o -c /mnt/HD/Programs/vitor/ZeldaCpp/src/scene_level.cpp
 
 CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.i: cmake_force
@@ -100,7 +114,7 @@ CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.s: cmake_force
 CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o: CMakeFiles/ZeldaCpp.dir/flags.make
 CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o: /mnt/HD/Programs/vitor/ZeldaCpp/src/scene_title_screen.cpp
 CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o: CMakeFiles/ZeldaCpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o -MF CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o.d -o CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o -c /mnt/HD/Programs/vitor/ZeldaCpp/src/scene_title_screen.cpp
 
 CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.i: cmake_force
@@ -114,7 +128,7 @@ CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.s: cmake_force
 CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.o: CMakeFiles/ZeldaCpp.dir/flags.make
 CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.o: /mnt/HD/Programs/vitor/ZeldaCpp/src/texture_pool.cpp
 CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.o: CMakeFiles/ZeldaCpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.o -MF CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.o.d -o CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.o -c /mnt/HD/Programs/vitor/ZeldaCpp/src/texture_pool.cpp
 
 CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.i: cmake_force
@@ -128,7 +142,7 @@ CMakeFiles/ZeldaCpp.dir/src/texture_pool.cpp.s: cmake_force
 CMakeFiles/ZeldaCpp.dir/src/util.cpp.o: CMakeFiles/ZeldaCpp.dir/flags.make
 CMakeFiles/ZeldaCpp.dir/src/util.cpp.o: /mnt/HD/Programs/vitor/ZeldaCpp/src/util.cpp
 CMakeFiles/ZeldaCpp.dir/src/util.cpp.o: CMakeFiles/ZeldaCpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/util.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ZeldaCpp.dir/src/util.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ZeldaCpp.dir/src/util.cpp.o -MF CMakeFiles/ZeldaCpp.dir/src/util.cpp.o.d -o CMakeFiles/ZeldaCpp.dir/src/util.cpp.o -c /mnt/HD/Programs/vitor/ZeldaCpp/src/util.cpp
 
 CMakeFiles/ZeldaCpp.dir/src/util.cpp.i: cmake_force
@@ -141,6 +155,7 @@ CMakeFiles/ZeldaCpp.dir/src/util.cpp.s: cmake_force
 
 # Object files for target ZeldaCpp
 ZeldaCpp_OBJECTS = \
+"CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o" \
 "CMakeFiles/ZeldaCpp.dir/src/main.cpp.o" \
 "CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o" \
 "CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o" \
@@ -150,6 +165,7 @@ ZeldaCpp_OBJECTS = \
 # External object files for target ZeldaCpp
 ZeldaCpp_EXTERNAL_OBJECTS =
 
+ZeldaCpp: CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o
 ZeldaCpp: CMakeFiles/ZeldaCpp.dir/src/main.cpp.o
 ZeldaCpp: CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o
 ZeldaCpp: CMakeFiles/ZeldaCpp.dir/src/scene_title_screen.cpp.o
@@ -164,7 +180,7 @@ ZeldaCpp: lib/raylib/raylib/external/glfw/src/libglfw3.a
 ZeldaCpp: /usr/lib/x86_64-linux-gnu/librt.a
 ZeldaCpp: /usr/lib/x86_64-linux-gnu/libm.so
 ZeldaCpp: CMakeFiles/ZeldaCpp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable ZeldaCpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/HD/Programs/vitor/ZeldaCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable ZeldaCpp"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ZeldaCpp.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

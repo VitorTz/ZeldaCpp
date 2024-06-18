@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o"
+  "CMakeFiles/ZeldaCpp.dir/src/globals.cpp.o.d"
   "CMakeFiles/ZeldaCpp.dir/src/main.cpp.o"
   "CMakeFiles/ZeldaCpp.dir/src/main.cpp.o.d"
   "CMakeFiles/ZeldaCpp.dir/src/scene_level.cpp.o"

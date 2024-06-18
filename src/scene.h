@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include "texture_pool.h"
 #include "constants.h"
+#include "globals.h"
 
 
 namespace ze {
@@ -28,8 +29,9 @@ namespace ze {
     class TitleScreen : public ze::Scene {
 
         private:
-            Texture2D logo;
-            Texture2D background;
+            Texture2D logo;            
+            Texture2D backgroundSprite[2];
+            Vector2 backgroundPos[2];            
 
         public:
             TitleScreen();
