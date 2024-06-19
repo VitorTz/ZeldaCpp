@@ -1,56 +1,64 @@
-#ifndef ZELDA_SCENE_H
-#define ZELDA_SCENE_H
+#pragma once
+#include <memory>
 #include <functional>
 #include <raylib.h>
-#include "texture_pool.h"
-#include "constants.h"
-#include "globals.h"
+#include <array>
 
 
 namespace ze {
 
-    enum SceneId {
-        TitleScreenId,
-        LevelSceneId
-    };
 
-    typedef std::function<void(ze::SceneId)> ChangeSceneRequest;
+	enum SceneId {
+		TitleScreenId
+	};
 
-    class Scene {
+	constexpr ze::SceneId first_scene = ze::SceneId::TitleScreenId;
 
-        public:
-            virtual ~Scene() = default;
-            virtual void update(const ze::ChangeSceneRequest& change_scene_request) = 0;
-            virtual void draw() = 0;
+	typedef std::function<void(ze::SceneId)> ChangeScene;
 
-    };
+	class Scene {
+		
+	public:
+		virtual ~Scene() = default;
+		virtual void update(const ze::ChangeScene& changeScene) = 0;
+		virtual void draw() = 0;
 
+	};
 
-    class TitleScreen : public ze::Scene {
+	class SceneManager {
 
-        private:
-            Texture2D logo;            
-            Texture2D backgroundSprite[2];
-            Vector2 backgroundPos[2];            
+	private:
+		std::unique_ptr<ze::Scene> scene;
+		ze::ChangeScene changeSceneRequest = [this](const ze::SceneId id) {
+			this->should_change_scene = true;
+			this->scene_id = id;
+		};
+		ze::SceneId scene_id = ze::first_scene;
+		bool should_change_scene = false;
 
-        public:
-            TitleScreen();
-            void update(const ze::ChangeSceneRequest& change_scene_request) override;
-            void draw() override;
+	private:
+		void loadNextScene();		
 
-    };
+	public:
+		SceneManager();
+		void update();
+		void draw();
 
-
-    class LevelScene : public ze::Scene {
-
-        public:
-            LevelScene();
-            void update(const ze::ChangeSceneRequest& change_scene_request) override;
-            void draw() override;
-    };
-    
-} // namespace ze
+	};
 
 
+	class TitleScreen : public ze::Scene {
 
-#endif
+	private:
+		std::array<std::pair<Texture2D, Vector2>, 2> background;
+		Texture2D logo;
+		Font font;
+
+	public:
+		TitleScreen();
+		void update(const ze::ChangeScene& changeScene) override;
+		void draw() override;
+
+	};
+
+}

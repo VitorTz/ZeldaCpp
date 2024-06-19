@@ -13,12 +13,12 @@ add_subdirectory(./lib/raylib)
 
 # Add source to this project's executable.
 
-file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp")
-file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.h")
+# file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp")
+# file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.h")
 
-add_executable(${PROJECT_NAME} ${sources} ${headers})
+# add_executable(${PROJECT_NAME} ${sources} ${headers})
 
-# add_executable (${PROJECT_NAME} "src/main.cpp")
+add_executable (${PROJECT_NAME} "src/main.cpp" "src/constants.h" "src/entity_manager.h" "src/types.h" "src/entity_manager.cpp" "src/component_array.h" "src/component_manager.h" "src/components.h"  "src/system.h" "src/system_manager.h" "src/ecs.h" "src/component_type.h" "src/system_transform.cpp" "src/util.h" "src/util.cpp" "src/system_sprite.cpp" "src/scene.h" "src/scene_manager.cpp" "src/scene_title_screen.cpp" "src/texture_pool.h" "src/texture_pool.cpp" "src/system_controller.cpp")
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

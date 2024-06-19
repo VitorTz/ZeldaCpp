@@ -1,12 +1,13 @@
-#ifndef ZELDA_UTIL_H
-#define ZELDA_UTIL_H
+#pragma once
+#include <raylib.h>
+#include <cmath>
 
 
 namespace ze {
-    
-    unsigned long hash_func(const char* s);
-    
-} // namespace ze
 
 
-#endif
+	void normalize_vec(Vector2* v);
+
+	unsigned long hash_f(const char* s);
+
+}

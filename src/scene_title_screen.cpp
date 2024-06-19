@@ -1,53 +1,51 @@
 #include "scene.h"
-#include <raylib.h>
+#include "texture_pool.h"
+#include "constants.h"
 
 
 ze::TitleScreen::TitleScreen(
-
-) : logo(ze::gTexturePool.load(ASSETS_PATH "logo/logo.png")) {
-    backgroundSprite[0] = ze::gTexturePool.load(ASSETS_PATH "logo/background.png");
-    backgroundSprite[1] = ze::gTexturePool.load(ASSETS_PATH "logo/background1.png");
-    backgroundPos[0] = {0.0f, 0.0f};
-    backgroundPos[1] = {(float) backgroundSprite[0].width, 0.0f};
+) : logo(ze::gTexturePool.load(ASSETS_PATH "logo/logo.png")),
+	font(LoadFontEx(ASSETS_PATH "font/The-Wild-Breath-of-Zelda.ttf", 52, 0, 255)) {
+	std::array<const char*, 2> textures = {
+		ASSETS_PATH "logo/background.png",
+		ASSETS_PATH "logo/background1.png"
+	};
+	for (int i = 0; i < this->background.size(); i++) {
+		this->background[i].first = ze::gTexturePool.load(textures[i]);
+		this->background[i].second = {(float) (i * ZE_SCREEN_WIDTH), 0.0f };
+	}	
 }
 
 
-void ze::TitleScreen::update(const ze::ChangeSceneRequest& change_scene_request) {
-    const float dt = GetFrameTime();
-    for (int i = 0; i < 2; i++) {
-        Vector2* v = &backgroundPos[i];
-        v->x -= dt * 100.0f;
-        if (v->x + backgroundSprite[0].width < 0) {
-            v->x += backgroundSprite[0].width * 2;
-        }
-    }
-    if (IsKeyPressed(KEY_SPACE)) {
-        ze::gTexturePool.erase(ASSETS_PATH "logo/background.png");
-        ze::gTexturePool.erase(ASSETS_PATH "logo/background1.png");
-        change_scene_request(ze::LevelSceneId);
-    }
+void ze::TitleScreen::update(const ze::ChangeScene& changeScene) {
+	const float dt = GetFrameTime();
+	for (std::pair<Texture2D, Vector2>& pair : this->background) {
+		pair.second.x -= dt * 100.0f;
+		if (pair.second.x + ZE_SCREEN_WIDTH < 0) {
+			pair.second.x += ZE_SCREEN_WIDTH * background.size();
+		}
+	}
 }
 
 
 void ze::TitleScreen::draw() {
-    for (int i = 0; i < 2; i++) {
-        DrawTextureV(backgroundSprite[i], backgroundPos[i], WHITE);
-    } 
-    DrawTexture(
-        logo, 
-        ZE_SCREEN_WIDTH / 2 - logo.width / 2, 
-        ZE_SCREEN_HEIGHT / 2 - logo.height / 2, 
-        WHITE
-    );
-    const char text[] = "Press space";
-    const Font font = ze::globals::get_font();    
-    const Vector2 text_size = MeasureTextEx(font, text, 52, 1.0f);
-    DrawTextEx(
-        font, 
-        text, 
-        {ZE_SCREEN_WIDTH / 2 - text_size.x / 2, ZE_SCREEN_HEIGHT - 200},
-        52,
-        1.0f,
-        BLACK
-    );
+	BeginDrawing();
+	ClearBackground(BLACK);
+	for (std::pair<Texture2D, Vector2>& pair : this->background) {
+		DrawTextureV(pair.first, pair.second, WHITE);
+	}
+	DrawTexture(
+		logo, 
+		ZE_SCREEN_WIDTH / 2 - logo.width / 2, 
+		ZE_SCREEN_HEIGHT / 2 - logo.height / 2,
+		WHITE
+	);
+	DrawTextEx(
+		font, 
+		"PRESS ENTER",
+		{ ZE_SCREEN_WIDTH / 2.0f - 100, ZE_SCREEN_HEIGHT - 220.0f }, 
+		52, 
+		1.0f, 
+		BLACK);
+	EndDrawing();
 }
