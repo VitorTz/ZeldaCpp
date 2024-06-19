@@ -9,7 +9,8 @@ namespace ze {
 
 
 	enum SceneId {
-		TitleScreenId
+		TitleScreenId,
+		LevelSceneId
 	};
 
 	constexpr ze::SceneId first_scene = ze::SceneId::TitleScreenId;
@@ -56,6 +57,16 @@ namespace ze {
 
 	public:
 		TitleScreen();
+		void update(const ze::ChangeScene& changeScene) override;
+		void draw() override;
+
+	};
+
+
+	class LevelScene : public ze::Scene {
+
+	public:
+		LevelScene();
 		void update(const ze::ChangeScene& changeScene) override;
 		void draw() override;
 

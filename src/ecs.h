@@ -90,6 +90,11 @@ namespace ze {
 			return this->system.isOnSystem<T>(e);
 		}
 
+		template<typename T>
+		const std::unordered_set<ze::Entity>* getEntitiesBySystem() {
+			return this->system.getEntitiesBySystem<T>();
+		}
+
 		void update(float dt) {
 			this->system.update(dt);
 
@@ -133,16 +138,15 @@ namespace ze {
 						const ze::transform_t& lt = this->get_transform(l);
 						const ze::transform_t& rt = this->get_transform(r);
 						return (
-							lt.pos.y + lt.size.y / 2.0f <= rt.pos.y + rt.size.y / 2.0f
-						);
+						 	lt.pos.y + lt.size.y / 2.0f < rt.pos.y + rt.size.y / 2.0f
+						);						
 					}
 				);
 				for (const ze::Entity e : pair.second) {
 					this->system.draw(e);
 				}
 			}
-
-		}		
+		}
 
 		void clear() {
 			this->should_clear_all_entities = true;

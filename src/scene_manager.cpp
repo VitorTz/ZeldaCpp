@@ -11,6 +11,9 @@ void ze::SceneManager::loadNextScene() {
 		case ze::TitleScreenId:
 			this->scene = std::make_unique<ze::TitleScreen>();
 			break;
+		case ze::LevelSceneId:
+			this->scene = std::make_unique<ze::LevelScene>();
+			break;
 		default:
 			break;
 	}

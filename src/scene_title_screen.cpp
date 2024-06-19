@@ -25,6 +25,10 @@ void ze::TitleScreen::update(const ze::ChangeScene& changeScene) {
 			pair.second.x += ZE_SCREEN_WIDTH * background.size();
 		}
 	}
+	if (IsKeyPressed(KEY_SPACE)) {
+		ze::gTexturePool.clear();
+		changeScene(ze::LevelSceneId);
+	}
 }
 
 

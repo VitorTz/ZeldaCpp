@@ -66,6 +66,12 @@ namespace ze {
 			return s->find(e) != s->end();
 		}
 
+		template<typename T>
+		const std::unordered_set<ze::Entity>* getEntitiesBySystem() {
+			const ze::ComponentId id = ze::gComponentType.get<T>();
+			return &this->systemMap[id]->entities;
+		}
+
 		void entityDestroy(ze::Entity e) {
 			for (const ze::ComponentId id : this->entityToSystems[e]) {
 				this->systemMap[id]->entities.erase(e);
