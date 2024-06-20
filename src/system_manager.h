@@ -56,13 +56,13 @@ namespace ze {
 		void rmvFromSystem(const ze::Entity e) {
 			const ze::ComponentId id = gComponentType.get<T>();
 			this->systemMap[id]->entities.erase(e);
-			this->entityToSystems[e].erase(id)
+			this->entityToSystems[e].erase(id);
 		}
 
 		template<typename T>
 		bool isOnSystem(const ze::Entity e) const {
 			const ze::ComponentId id = ze::gComponentType.get<T>();
-			const std::unordered_set<ze::ComponentId>* s = this->entityToSystems[e];
+			const std::unordered_set<ze::ComponentId>* s = &this->systemMap.at(id)->entities;
 			return s->find(e) != s->end();
 		}
 
@@ -72,10 +72,10 @@ namespace ze {
 			return &this->systemMap[id]->entities;
 		}
 
-		void entityDestroy(ze::Entity e) {
+		void entityDestroy(ze::Entity e) {		
 			for (const ze::ComponentId id : this->entityToSystems[e]) {
 				this->systemMap[id]->entities.erase(e);
-			}
+			}			
 			this->entityToSystems[e].clear();
 		}
 		void clear() {

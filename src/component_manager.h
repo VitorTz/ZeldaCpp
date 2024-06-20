@@ -26,7 +26,10 @@ namespace ze {
 				ze::gComponentType.get<ze::transform_t>(),
 				std::make_unique<ze::ComponentArray<ze::transform_t>>()
 			);
-			this->transformArray = static_cast<ze::ComponentArray<ze::transform_t>*>(this->componentArrayMap[ze::gComponentType.get<ze::transform_t>()].get());
+			
+			this->transformArray = static_cast<ze::ComponentArray<ze::transform_t>*>(
+				this->componentArrayMap.at(ze::gComponentType.get<ze::transform_t>()).get()
+			);
 			
 			// sprite
 			this->componentArrayMap.emplace(
@@ -42,6 +45,7 @@ namespace ze {
 
 			assert(this->componentArrayMap.size() == ZE_NUM_COMPONENTS);
 		}
+
 		template<typename T>
 		void addComponent(const ze::Entity e, T c) {
 			const ze::ComponentId id = ze::gComponentType.get<T>();
@@ -49,11 +53,13 @@ namespace ze {
 			arr->insert(e, std::move(c));
 			this->mSize++;
 		}
+
 		template<typename T>
 		void rmvComponent(const ze::Entity e) {
 			this->componentArrayMap[ze::gComponentType.get<T>()]->erase(e);
 			this->mSize--;
 		}
+
 		template<typename T>
 		T& getComponent(const ze::Entity e) {
 			const ze::ComponentId id = ze::gComponentType.get<T>();
@@ -65,9 +71,10 @@ namespace ze {
 			return this->transformArray->at(e);
 		}
 
-		void entityDestroy(ze::Entity e) {
+		void entityDestroy(const ze::Entity e) {
 			for (auto& pair : this->componentArrayMap) {
-				this->mSize -= pair.second->erase(e) ? 1 : 0;
+				const bool erased = pair.second->erase(e);
+				this->mSize -= erased ? 1 : 0;
 			}
 		}
 		void clear() {

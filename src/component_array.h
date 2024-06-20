@@ -2,6 +2,7 @@
 #include <array>
 #include <unordered_map>
 #include <cassert>
+#include <iostream>
 #include "types.h"
 #include "constants.h"
 
@@ -44,17 +45,20 @@ namespace ze {
 		}
 
 		bool erase(const ze::Entity e) override {
-			if (this->entityToIndex.find(e) != this->entityToIndex.end()) {
-				const std::size_t lastComponentIndex = --this->mSize;
+			if (this->entityToIndex.find(e) != this->entityToIndex.end()) {				
+				const std::size_t lastComponentIndex = this->mSize - 1;
 				const std::size_t removedComponentIndex = this->entityToIndex[e];
-				const ze::Entity lastEntity = this->entityToIndex[lastComponentIndex];
+				const ze::Entity lastEntity = this->indexToEntity[lastComponentIndex];
+				
 				this->arr[removedComponentIndex] = this->arr[lastComponentIndex];
-
-				this->entityToIndex[lastEntity] = removedComponentIndex;
-				this->indexToEntity[removedComponentIndex] = lastEntity;
 
 				this->entityToIndex.erase(e);
 				this->indexToEntity.erase(lastComponentIndex);
+
+				this->entityToIndex.insert_or_assign(lastEntity, removedComponentIndex);
+				this->indexToEntity.insert_or_assign(removedComponentIndex, lastEntity);				
+
+				this->mSize--;
 				return true;
 			}
 			return false;

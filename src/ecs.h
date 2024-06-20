@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 
 namespace ze {
@@ -27,7 +28,8 @@ namespace ze {
 		ECS() {			
 			for (ze::Zindex i = ze::MIN_Z_INDEX; i <= MAX_Z_INDEX; i++) {
 				this->camera.insert({ i, {} });
-			}
+				this->camera[i].reserve(sizeof(ze::Entity) * ZE_MAX_ENTITIES);
+			}			
 		}
 
 		ze::Entity entityCreate(const ze::Zindex zIndex, const bool _isOnCamera) {
@@ -35,15 +37,15 @@ namespace ze {
 			const ze::Entity e = this->entity.entityCreate();
 			this->addComponent<ze::transform_t>(e, ze::transform_t{ zIndex });
 			if (_isOnCamera == true) {
-				this->submitToCamera(e);
+				this->submitToCamera(e, zIndex);
 			}			
 			return e;
 		}
 
-		void entityDestroy(ze::Entity e) {
+		void submitEntityToDestroyQueue(const ze::Entity e) {
 			this->entitiesToDestroy.push(e);
-		}
-
+		}		
+		
 		template<typename T>
 		void addComponent(const ze::Entity e, T c) {
 			this->component.addComponent<T>(e, std::move(c));
@@ -57,7 +59,7 @@ namespace ze {
 		}
 
 		template<typename T>
-		T& getComponent(ze::Entity e) {
+		T& getComponent(const ze::Entity e) {
 			return this->component.getComponent<T>(e);
 		}
 
@@ -65,10 +67,10 @@ namespace ze {
 			return this->component.get_transform(e);			
 		}
 
-		void submitToCamera(ze::Entity e) {
+		void submitToCamera(const ze::Entity e, const ze::Zindex zIndex) {
 			if (this->isOnCamera[e] == false) {
 				this->isOnCamera[e] = true;
-				this->camera[this->get_transform(e).zIndex].push_back(e);
+				this->camera[zIndex].push_back(e);
 			}
 		}
 
@@ -86,7 +88,7 @@ namespace ze {
 		}
 
 		template<typename T>
-		bool isOnSystem(ze::Entity e) const {
+		bool isOnSystem(const ze::Entity e) const {
 			return this->system.isOnSystem<T>(e);
 		}
 
@@ -95,7 +97,7 @@ namespace ze {
 			return this->system.getEntitiesBySystem<T>();
 		}
 
-		void update(float dt) {
+		void update(const float dt) {
 			this->system.update(dt);
 
 			if (this->should_clear_all_entities == true) {
@@ -119,8 +121,7 @@ namespace ze {
 
 			while (this->entitiesToDestroy.empty() == false) {
 				const ze::Entity e = this->entitiesToDestroy.front();
-				this->entitiesToDestroy.pop();
-
+				this->entitiesToDestroy.pop();				
 				this->rmvFromCamera(e);
 				this->entity.entityDestroy(e);
 				this->component.entityDestroy(e);
@@ -141,7 +142,7 @@ namespace ze {
 						 	lt.pos.y + lt.size.y / 2.0f < rt.pos.y + rt.size.y / 2.0f
 						);						
 					}
-				);
+				);				
 				for (const ze::Entity e : pair.second) {
 					this->system.draw(e);
 				}
@@ -158,6 +159,14 @@ namespace ze {
 
 		std::size_t componentsAlive() const {
 			return this->component.size();
+		}
+
+		std::size_t cameraSize() const {
+			std::size_t s = 0;
+			for (const auto& pair : this->camera) {
+				s += pair.second.size();
+			}
+			return s;
 		}
 
 	};
