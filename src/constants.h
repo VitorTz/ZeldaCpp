@@ -5,17 +5,19 @@
 #define ZE_SCREEN_WIDTH (1280)
 #define ZE_SCREEN_HEIGHT (720)
 #define ZE_WINDOW_TITLE "Zelda"
-#define ZE_TILE_SIZE (64)
 
 #define ZE_MAX_ENTITIES (4096)
 #define ZE_DEBUD_MODE (true)
 
 #define ZE_WORLD_MAP_ROWS (20)
 #define ZE_WORLD_MAP_COLS (20)
+#define ZE_TILE_SIZE (64)
+
 #define ZE_MIN_ZINDEX CLITERAL(ze::z_index)(0)
 #define ZE_MAX_ZINDEX CLITERAL(ze::z_index)(10)
 
-#define ZE_PLAYER_SPEED 150.0f;
+#define ZE_PLAYER_SPEED (150.0f);
+
 
 namespace ze {
 

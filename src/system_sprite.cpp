@@ -13,6 +13,13 @@ void ze::SpriteSystem::draw(const ze::entity e) {
 	const ze::sprite_t& s = ze::gEcs.getComponent<ze::sprite_t>(e);
 	DrawTextureV(s.texture, {t.rect.x, t.rect.y}, WHITE);
 	if (ZE_DEBUD_MODE) {		
-		DrawRectangleLines(t.rect.x , t.rect.y, t.rect.width, t.rect.height, RED);		
+		DrawRectangleLinesEx(t.rect, 1.0f, RED);		
+		if (ze::gEcs.isEntityOnSystem<ze::obstacle_t>(e)) {			
+			DrawRectangleLinesEx(
+				ze::gEcs.getComponent<ze::obstacle_t>(e).rect,
+				1.0f, 
+				BLUE
+			);
+		}
 	}
 }

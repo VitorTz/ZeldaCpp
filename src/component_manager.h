@@ -19,7 +19,7 @@ namespace ze {
 
 	public:
 		ComponentManager() {
-			this->componentArrayMap.reserve(ZE_NUM_COMPONENTS / this->componentArrayMap.max_load_factor());
+			this->componentArrayMap.reserve(ZE_NUM_COMPONENTS);
 			
 			// transform
 			this->componentArrayMap.emplace(
@@ -53,6 +53,12 @@ namespace ze {
 			this->componentArrayMap.emplace(
 				ze::gComponentType.get<ze::player_t>(),
 				std::make_unique<ze::ComponentArray<ze::player_t>>()
+			);
+
+			// sprite animation
+			this->componentArrayMap.emplace(
+				ze::gComponentType.get<ze::sprite_animation_t>(),
+				std::make_unique<ze::ComponentArray<ze::sprite_animation_t>>()
 			);
 
 			assert(this->componentArrayMap.size() == ZE_NUM_COMPONENTS);

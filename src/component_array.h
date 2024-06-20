@@ -33,8 +33,8 @@ namespace ze {
 	public:
 
 		ComponentArray() {
-			this->entityToIndex.reserve(ZE_MAX_ENTITIES / this->entityToIndex.max_load_factor());
-			this->indexToEntity.reserve(ZE_MAX_ENTITIES / this->indexToEntity.max_load_factor());
+			this->entityToIndex.reserve(ZE_MAX_ENTITIES / static_cast<std::size_t>(this->entityToIndex.max_load_factor()));
+			this->indexToEntity.reserve(ZE_MAX_ENTITIES / static_cast<std::size_t>(this->indexToEntity.max_load_factor()));
 		}
 
 		void insert(const ze::entity e, T c) {

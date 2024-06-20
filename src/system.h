@@ -59,4 +59,12 @@ namespace ze {
 
 	};
 
+	class SpriteAnimationSystem : public ze::System {
+
+	public:
+		void update(float dt) override;
+		void draw(ze::entity e) override;
+
+	};
+
 }

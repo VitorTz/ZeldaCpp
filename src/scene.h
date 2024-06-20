@@ -65,6 +65,9 @@ namespace ze {
 
 	class LevelScene : public ze::Scene {
 
+	private:
+		ze::entity player_entity;
+
 	public:
 		LevelScene();
 		void update(const ze::ChangeScene& changeScene) override;

@@ -3,7 +3,7 @@
 
 
 ze::TexturePool::TexturePool() {
-	this->textureMap.reserve(256 / this->textureMap.max_load_factor());
+	this->textureMap.reserve(256 / static_cast<std::size_t>(this->textureMap.max_load_factor()));
 }
 
 

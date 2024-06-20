@@ -10,7 +10,6 @@ namespace ze {
 
 	void normalize_vec(Vector2* v);
 
-	unsigned long hash_f(const char* s);
-	
+	unsigned long hash_f(const char* s);	
 
 }

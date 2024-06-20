@@ -19,12 +19,13 @@ namespace ze {
 
 	public:
 		ComponentType() {
-			this->typeToComponentId.reserve(ZE_NUM_COMPONENTS / this->typeToComponentId.max_load_factor());
+			this->typeToComponentId.reserve(ZE_NUM_COMPONENTS / static_cast<std::size_t>(this->typeToComponentId.max_load_factor()));
 			this->typeToComponentId.insert({ typeid(ze::transform_t).name(), id++});
 			this->typeToComponentId.insert({ typeid(ze::sprite_t).name(), id++ });
 			this->typeToComponentId.insert({ typeid(ze::controller_t).name(), id++ });
 			this->typeToComponentId.insert({ typeid(ze::obstacle_t).name(), id++ });
 			this->typeToComponentId.insert({ typeid(ze::player_t).name(), id++ });
+			this->typeToComponentId.insert({ typeid(ze::sprite_animation_t).name(), id++ });
 			assert(this->typeToComponentId.size() == ZE_NUM_COMPONENTS);
 		}
 		template<typename T>

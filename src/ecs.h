@@ -99,15 +99,16 @@ namespace ze {
 			return this->system.getEntitiesBySystem<T>();
 		}
 
-		bool obstacleCollide(const ze::entity e) {			
-			const Rectangle eRect = this->get_transform(e).rect;
+		bool checkCollision(const ze::entity e, const Rectangle rect) {
 			for (const ze::entity otherEntity : *this->system.getEntitiesBySystem<ze::obstacle_t>()) {
 				if (
-					e != otherEntity && CheckCollisionRecs(eRect, this->get_transform(otherEntity).rect)
-					) {
+					e != otherEntity && 
+					CheckCollisionRecs(rect, this->component.getComponent<ze::obstacle_t>(otherEntity).rect)
+				) {
 					return true;
 				}
 			}
+			return false;
 		}
 
 		void update(const float dt) {

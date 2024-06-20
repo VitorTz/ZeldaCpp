@@ -19,12 +19,12 @@ namespace ze {
 
 	public:		
 		SystemManager() {
-			this->entityToSystems.reserve(ZE_MAX_ENTITIES / this->entityToSystems.max_load_factor());
+			this->entityToSystems.reserve(ZE_MAX_ENTITIES / static_cast<std::size_t>(this->entityToSystems.max_load_factor()));
 			for (ze::entity i = 0; i < ZE_MAX_ENTITIES; i++) {
 				this->entityToSystems.insert({ i, {} });				
 			}
 
-			this->systemMap.reserve(ZE_NUM_COMPONENTS / this->systemMap.max_load_factor());
+			this->systemMap.reserve(ZE_NUM_COMPONENTS);
 			
 			// transform
 			this->systemMap.emplace(
@@ -54,6 +54,12 @@ namespace ze {
 			this->systemMap.emplace(
 				gComponentType.get<ze::player_t>(),
 				std::make_unique<ze::PlayerSystem>()
+			);
+
+			// sprite animation
+			this->systemMap.emplace(
+				gComponentType.get<ze::sprite_animation_t>(),
+				std::make_unique<ze::SpriteAnimationSystem>()
 			);
 
 			assert(this->systemMap.size() == ZE_NUM_COMPONENTS);
