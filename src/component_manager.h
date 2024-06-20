@@ -13,7 +13,7 @@ namespace ze {
 	class ComponentManager {
 
 	private:		
-		std::unordered_map<ze::ComponentId, std::unique_ptr<ze::IComponentArray>> componentArrayMap{};
+		std::unordered_map<ze::component, std::unique_ptr<ze::IComponentArray>> componentArrayMap{};
 		ze::ComponentArray<ze::transform_t>* transformArray;
 		std::size_t mSize = 0;
 
@@ -43,35 +43,47 @@ namespace ze {
 				std::make_unique<ze::ComponentArray<ze::controller_t>>()
 			);
 
+			// obstacle
+			this->componentArrayMap.emplace(
+				ze::gComponentType.get<ze::obstacle_t>(),
+				std::make_unique<ze::ComponentArray<ze::obstacle_t>>()
+			);
+
+			// player
+			this->componentArrayMap.emplace(
+				ze::gComponentType.get<ze::player_t>(),
+				std::make_unique<ze::ComponentArray<ze::player_t>>()
+			);
+
 			assert(this->componentArrayMap.size() == ZE_NUM_COMPONENTS);
 		}
 
 		template<typename T>
-		void addComponent(const ze::Entity e, T c) {
-			const ze::ComponentId id = ze::gComponentType.get<T>();
+		void addComponent(const ze::entity e, T c) {
+			const ze::component id = ze::gComponentType.get<T>();
 			ze::ComponentArray<T>* arr = static_cast<ze::ComponentArray<T>*>(this->componentArrayMap[id].get());
 			arr->insert(e, std::move(c));
 			this->mSize++;
 		}
 
 		template<typename T>
-		void rmvComponent(const ze::Entity e) {
+		void rmvComponent(const ze::entity e) {
 			this->componentArrayMap[ze::gComponentType.get<T>()]->erase(e);
 			this->mSize--;
 		}
 
 		template<typename T>
-		T& getComponent(const ze::Entity e) {
-			const ze::ComponentId id = ze::gComponentType.get<T>();
+		T& getComponent(const ze::entity e) {
+			const ze::component id = ze::gComponentType.get<T>();
 			ze::ComponentArray<T>* arr = static_cast<ze::ComponentArray<T>*>(this->componentArrayMap[id].get());
 			return arr->at(e);			
 		}
 
-		ze::transform& get_transform(const ze::Entity e) {
+		ze::transform& get_transform(const ze::entity e) {
 			return this->transformArray->at(e);
 		}
 
-		void entityDestroy(const ze::Entity e) {
+		void entityDestroy(const ze::entity e) {
 			for (auto& pair : this->componentArrayMap) {
 				const bool erased = pair.second->erase(e);
 				this->mSize -= erased ? 1 : 0;

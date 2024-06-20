@@ -10,12 +10,12 @@ namespace ze {
 	class System {
 
 	public:
-		std::unordered_set<ze::Entity> entities{};
+		std::unordered_set<ze::entity> entities{};
 
 	public:
 		virtual ~System() = default;
 		virtual void update(float dt) = 0;
-		virtual void draw(ze::Entity e) = 0;
+		virtual void draw(ze::entity e) = 0;
 
 	};
 
@@ -23,7 +23,7 @@ namespace ze {
 
 	public:
 		void update(float dt) override;
-		void draw(ze::Entity e) override;
+		void draw(ze::entity e) override;
 
 	};
 
@@ -31,7 +31,7 @@ namespace ze {
 
 	public:
 		void update(float dt) override;
-		void draw(ze::Entity e) override;
+		void draw(ze::entity e) override;
 
 	};
 
@@ -39,7 +39,23 @@ namespace ze {
 
 	public:
 		void update(float dt) override;
-		void draw(ze::Entity e) override;
+		void draw(ze::entity e) override;
+
+	};
+
+	class ObstacleSystem : public ze::System {
+
+	public:
+		void update(float dt) override;
+		void draw(ze::entity e) override;
+
+	};
+
+	class PlayerSystem : public ze::System {
+
+	public:
+		void update(float dt) override;
+		void draw(ze::entity e) override;
 
 	};
 

@@ -13,7 +13,7 @@ namespace ze {
 		LevelSceneId
 	};
 
-	constexpr ze::SceneId first_scene = ze::SceneId::TitleScreenId;
+	constexpr ze::SceneId first_scene = ze::SceneId::LevelSceneId;
 
 	typedef std::function<void(ze::SceneId)> ChangeScene;
 

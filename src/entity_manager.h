@@ -9,13 +9,13 @@ namespace ze {
 	class EntityManager {
 
 	private:
-		std::queue<ze::Entity> queue;
+		std::queue<ze::entity> queue;
 		std::size_t mSize = 0;
 
 	public:
 		EntityManager();
-		ze::Entity entityCreate();
-		void entityDestroy(ze::Entity e);
+		ze::entity entityCreate();
+		void entityDestroy(ze::entity e);
 		void clear();
 		std::size_t size() const;
 

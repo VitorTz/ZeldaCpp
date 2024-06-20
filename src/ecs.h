@@ -4,8 +4,10 @@
 #include "system_manager.h"
 #include <map>
 #include <vector>
+#include <raymath.h>
 #include <algorithm>
 #include <iostream>
+#include "util.h"
 
 
 namespace ze {
@@ -14,9 +16,9 @@ namespace ze {
 	class ECS {
 
 	private:		
-		std::map<ze::Zindex, std::vector<ze::Entity>> camera{};
+		std::map<ze::z_index, std::vector<ze::entity>> camera{};
 		std::array<bool, ZE_MAX_ENTITIES> isOnCamera{};
-		std::queue<ze::Entity> entitiesToDestroy{};
+		std::queue<ze::entity> entitiesToDestroy{};
 		bool should_clear_all_entities = false;
 
 	private:
@@ -26,15 +28,15 @@ namespace ze {
 
 	public:
 		ECS() {			
-			for (ze::Zindex i = ze::MIN_Z_INDEX; i <= MAX_Z_INDEX; i++) {
+			for (ze::z_index i = ZE_MIN_ZINDEX; i <= ZE_MAX_ZINDEX; i++) {
 				this->camera.insert({ i, {} });
-				this->camera[i].reserve(sizeof(ze::Entity) * ZE_MAX_ENTITIES);
+				this->camera[i].reserve(sizeof(ze::entity) * ZE_MAX_ENTITIES);
 			}			
 		}
 
-		ze::Entity entityCreate(const ze::Zindex zIndex, const bool _isOnCamera) {
-			assert(zIndex >= ze::MIN_Z_INDEX && zIndex <= ze::MIN_Z_INDEX);
-			const ze::Entity e = this->entity.entityCreate();
+		ze::entity entityCreate(const ze::z_index zIndex, const bool _isOnCamera) {
+			assert(zIndex >= ZE_MIN_ZINDEX && zIndex <= ZE_MAX_ZINDEX);
+			const ze::entity e = this->entity.entityCreate();
 			this->addComponent<ze::transform_t>(e, ze::transform_t{ zIndex });
 			if (_isOnCamera == true) {
 				this->submitToCamera(e, zIndex);
@@ -42,42 +44,42 @@ namespace ze {
 			return e;
 		}
 
-		void submitEntityToDestroyQueue(const ze::Entity e) {
+		void submitEntityToDestroyQueue(const ze::entity e) {
 			this->entitiesToDestroy.push(e);
 		}		
 		
 		template<typename T>
-		void addComponent(const ze::Entity e, T c) {
+		void addComponent(const ze::entity e, T c) {
 			this->component.addComponent<T>(e, std::move(c));
 			this->system.addToSystem<T>(e);
 		}
 		
 		template<typename T>
-		void rmvComponent(const ze::Entity e) {
+		void rmvComponent(const ze::entity e) {
 			this->component.rmvComponent<T>(e);
 			this->system.rmvFromSystem<T>(e);
 		}
 
 		template<typename T>
-		T& getComponent(const ze::Entity e) {
+		T& getComponent(const ze::entity e) {
 			return this->component.getComponent<T>(e);
 		}
 
-		ze::transform_t& get_transform(const ze::Entity e) {
+		ze::transform_t& get_transform(const ze::entity e) {
 			return this->component.get_transform(e);			
 		}
 
-		void submitToCamera(const ze::Entity e, const ze::Zindex zIndex) {
+		void submitToCamera(const ze::entity e, const ze::z_index zIndex) {
 			if (this->isOnCamera[e] == false) {
 				this->isOnCamera[e] = true;
 				this->camera[zIndex].push_back(e);
 			}
 		}
 
-		void rmvFromCamera(ze::Entity e) {
+		void rmvFromCamera(ze::entity e) {
 			if (this->isOnCamera[e] == true) {
 				this->isOnCamera[e] = false;				
-				std::vector<ze::Entity>& v = this->camera[this->get_transform(e).zIndex];
+				std::vector<ze::entity>& v = this->camera[this->get_transform(e).zIndex];
 				for (std::size_t i = 0; i < v.size(); i++) {
 					if (v[i] == e) {
 						v.erase(v.begin() + i);
@@ -88,13 +90,24 @@ namespace ze {
 		}
 
 		template<typename T>
-		bool isOnSystem(const ze::Entity e) const {
-			return this->system.isOnSystem<T>(e);
+		bool isEntityOnSystem(const ze::entity e) const {
+			return this->system.isEntityOnSystem<T>(e);
 		}
 
 		template<typename T>
-		const std::unordered_set<ze::Entity>* getEntitiesBySystem() {
+		const std::unordered_set<ze::entity>* getEntitiesBySystem() {
 			return this->system.getEntitiesBySystem<T>();
+		}
+
+		bool obstacleCollide(const ze::entity e) {			
+			const Rectangle eRect = this->get_transform(e).rect;
+			for (const ze::entity otherEntity : *this->system.getEntitiesBySystem<ze::obstacle_t>()) {
+				if (
+					e != otherEntity && CheckCollisionRecs(eRect, this->get_transform(otherEntity).rect)
+					) {
+					return true;
+				}
+			}
 		}
 
 		void update(const float dt) {
@@ -111,7 +124,7 @@ namespace ze {
 					this->isOnCamera[i] = false;
 				}
 
-				this->entitiesToDestroy = std::queue<ze::Entity>();
+				this->entitiesToDestroy = std::queue<ze::entity>();
 
 				this->entity.clear();
 				this->component.clear();
@@ -120,7 +133,7 @@ namespace ze {
 			}
 
 			while (this->entitiesToDestroy.empty() == false) {
-				const ze::Entity e = this->entitiesToDestroy.front();
+				const ze::entity e = this->entitiesToDestroy.front();
 				this->entitiesToDestroy.pop();				
 				this->rmvFromCamera(e);
 				this->entity.entityDestroy(e);
@@ -135,15 +148,15 @@ namespace ze {
 				std::sort(
 					pair.second.begin(),
 					pair.second.end(),
-					[this](const ze::Entity l, const ze::Entity r) {
+					[this](const ze::entity l, const ze::entity r) {
 						const ze::transform_t& lt = this->get_transform(l);
 						const ze::transform_t& rt = this->get_transform(r);
 						return (
-						 	lt.pos.y + lt.size.y / 2.0f < rt.pos.y + rt.size.y / 2.0f
+						 	lt.rect.x + lt.rect.height / 2.0f < rt.rect.y + rt.rect.height / 2.0f
 						);						
 					}
 				);				
-				for (const ze::Entity e : pair.second) {
+				for (const ze::entity e : pair.second) {
 					this->system.draw(e);
 				}
 			}

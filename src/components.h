@@ -4,31 +4,28 @@
 #include "types.h"
 
 
-#define ZE_NUM_COMPONENTS (3)
+#define ZE_NUM_COMPONENTS (5)
 
 
 namespace ze{
 	
 
 	typedef struct transform {
-		Vector2 pos = {0.0f, 0.0f};
-		Vector2 size = { 0.0f, 0.0f };
+		Rectangle rect = { 0.0f, 0.0f, 0.0f, 0.0f };
 		Vector2 direction = { 0.0f, 0.0f };
 		Vector2 lastMovement = { 0.0f, 0.0f };
-		ze::Zindex zIndex = 0;
+		ze::z_index zIndex = 0;
 		float rotation = 0.0f;
 		float speed = 0.0f;
-		transform() = default;
-		transform(const transform&) = default;
+		transform() = default;		
 		transform(
-			const ze::Zindex zIndex
+			const ze::z_index zIndex
 		) : zIndex(zIndex) { }
 	} transform_t; 
 
 	typedef struct sprite {
 		Texture2D texture;
-		sprite() = default;
-		sprite(const sprite&) = default;
+		sprite() = default;		
 		sprite(
 			const char* file_name
 		) : texture(ze::gTexturePool.load(file_name)) { }
@@ -37,5 +34,13 @@ namespace ze{
 	typedef struct controller {
 			
 	} controller_t;
+
+	typedef struct obstacle {
+		Vector2 shrinkScale = { 1.0f, 1.0f };
+	} obstacle_t;
+
+	typedef struct player {
+
+	} player_t;
 
 }

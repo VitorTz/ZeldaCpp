@@ -2,9 +2,8 @@
 #include "ecs.h"
 
 
-
 void ze::ControllerSystem::update(const float dt) {
-	for (const ze::Entity e : this->entities) {
+	for (const ze::entity e : this->entities) {
 		ze::transform_t& t = ze::gEcs.get_transform(e);
 		t.direction = { 0.0f, 0.0f };
 		if (IsKeyDown(KEY_LEFT)) {
@@ -18,11 +17,11 @@ void ze::ControllerSystem::update(const float dt) {
 		}
 		else if (IsKeyDown(KEY_DOWN)) {
 			t.direction.y = 1;
-		}		
+		}
 	}
 }
 
 
-void ze::ControllerSystem::draw(const ze::Entity e) {
+void ze::ControllerSystem::draw(const ze::entity e) {
 
 }

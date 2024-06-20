@@ -3,30 +3,30 @@
 
 
 ze::EntityManager::EntityManager() {
-	for (ze::Entity e = 0; e < ZE_MAX_ENTITIES; e++) {
+	for (ze::entity e = 0; e < ZE_MAX_ENTITIES; e++) {
 		this->queue.push(e);
 	}	
 }
 
 
-ze::Entity ze::EntityManager::entityCreate() {
+ze::entity ze::EntityManager::entityCreate() {
 	assert(this->mSize < ZE_MAX_ENTITIES);
-	const ze::Entity e = this->queue.front();
+	const ze::entity e = this->queue.front();
 	this->queue.pop();
 	this->mSize++;
 	return e;
 }
 
 
-void ze::EntityManager::entityDestroy(const ze::Entity e) {
+void ze::EntityManager::entityDestroy(const ze::entity e) {
 	this->queue.push(e);
 	this->mSize--;
 }
 
 
 void ze::EntityManager::clear() {
-	this->queue = std::queue<ze::Entity>();
-	for (ze::Entity e = 0; e < ZE_MAX_ENTITIES; e++) {
+	this->queue = std::queue<ze::entity>();
+	for (ze::entity e = 0; e < ZE_MAX_ENTITIES; e++) {
 		this->queue.push(e);
 	}
 	this->mSize = 0;
