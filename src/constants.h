@@ -5,9 +5,10 @@
 #define ZE_SCREEN_WIDTH (1280)
 #define ZE_SCREEN_HEIGHT (720)
 #define ZE_WINDOW_TITLE "Zelda"
+#define ZE_FIRST_SCENE CLITERAL(ze::SceneId){ze::LevelSceneId}
 
 #define ZE_MAX_ENTITIES (4096)
-#define ZE_DEBUD_MODE (true)
+#define ZE_DEBUD_MODE (false)
 
 #define ZE_WORLD_MAP_ROWS (20)
 #define ZE_WORLD_MAP_COLS (20)

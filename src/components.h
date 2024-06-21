@@ -31,8 +31,8 @@ namespace ze{
 	} sprite_t;
 
 	typedef struct sprite_animation {
-		Texture2D texture;
-		Rectangle rect;
+		Texture2D texture{};
+		Rectangle rect = { 0.0f, 0.0f, 0.0f, 0.0f };
 		std::uint8_t speed = 0;
 		std::uint8_t current_frame = 0;
 		std::uint8_t frame_counter = 0;
@@ -45,8 +45,12 @@ namespace ze{
 		) : texture(ze::gTexturePool.load(file_name)),
 			rect({0.0f, 0.0f, sprite_width, (float) texture.height}),
 			speed(60 / static_cast<int>(animation_speed) ),
-			max_frames(static_cast<std::uint8_t>(texture.width / rect.width)) {
-
+			max_frames(static_cast<std::uint8_t>(texture.width / rect.width)) { }
+		void changeTexture(const char* file_name, const float sprite_width) {
+			this->texture = ze::gTexturePool.load(file_name);
+			this->rect = { 0.0f, 0.0f, sprite_width, (float)texture.height };
+			this->max_frames = static_cast<std::uint8_t>(texture.width / rect.width);
+			this->current_frame = this->frame_counter = 0;
 		}
 	} sprite_animation_t;
 
@@ -62,7 +66,8 @@ namespace ze{
 	} obstacle_t;
 
 	typedef struct player {
-		ze::Action action = ze::DownIdle;
+		ze::Action lastAction = ze::DownIdle;
+		ze::Action action = ze::DownIdle;		
 	} player_t;
 
 }

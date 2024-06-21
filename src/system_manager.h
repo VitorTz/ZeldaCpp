@@ -20,6 +20,7 @@ namespace ze {
 	public:		
 		SystemManager() {
 			this->entityToSystems.reserve(ZE_MAX_ENTITIES / static_cast<std::size_t>(this->entityToSystems.max_load_factor()));
+
 			for (ze::entity i = 0; i < ZE_MAX_ENTITIES; i++) {
 				this->entityToSystems.insert({ i, {} });				
 			}

@@ -20,6 +20,22 @@ static ze::entity load_sprite(
 }
 
 
+void load_player(const int posX, const int posY) {
+	const ze::entity player = ze::gEcs.entityCreate(1, true);
+	ze::gEcs.addComponent<ze::player_t>(player, ze::player_t{});
+	ze::gEcs.addComponent<ze::controller_t>(player, ze::controller_t{});
+	ze::gEcs.addComponent<ze::obstacle_t>(player, ze::obstacle_t{ {0.8f, 0.5f} });
+	ze::gEcs.addComponent<ze::sprite_animation_t>(player, ze::sprite_animation_t{ ASSETS_PATH "graphics/player/idle_down.png", ZE_TILE_SIZE, ze::Normal });
+	ze::transform_t& t = ze::gEcs.get_transform(player);
+	t.rect.x = (float) posY * ZE_TILE_SIZE;
+	t.rect.y = (float) posX * ZE_TILE_SIZE;
+	t.rect.width = ZE_TILE_SIZE;
+	t.rect.height = ZE_TILE_SIZE;
+	t.speed = ZE_PLAYER_SPEED;
+	ze::gPlayerEntity = player;
+}
+
+
 void create_map() {	
 	ze::entity e{};
 	for (int i = 0; i < ZE_WORLD_MAP_ROWS; i++) {
@@ -30,12 +46,7 @@ void create_map() {
 				ze::gEcs.addComponent<ze::obstacle_t>(e, ze::obstacle_t{});
 				break;
 			case 'p': // player					
-				e = load_sprite(i, j, 1, ASSETS_PATH "graphics/test/player.png");
-				ze::gEcs.addComponent<ze::player_t>(e, ze::player_t{});
-				ze::gEcs.addComponent<ze::controller_t>(e, ze::controller_t{});
-				ze::gEcs.addComponent<ze::obstacle_t>(e, ze::obstacle_t{ {0.8f, 0.5f} });
-				ze::gEcs.get_transform(e).speed = ZE_PLAYER_SPEED;				
-				ze::gPlayerEntity = e;
+				load_player(i, j);
 				break;
 			default:
 				break;
@@ -46,7 +57,7 @@ void create_map() {
 
 
 ze::LevelScene::LevelScene() {	
-	create_map();
+	create_map();	
 }
 
 

@@ -1,21 +1,14 @@
 #pragma once
-#include <memory>
-#include <functional>
 #include <raylib.h>
+#include <memory>
 #include <array>
+#include "types.h"
 
 
 namespace ze {
 
 
-	enum SceneId {
-		TitleScreenId,
-		LevelSceneId
-	};
-
-	constexpr ze::SceneId first_scene = ze::SceneId::LevelSceneId;
-
-	typedef std::function<void(ze::SceneId)> ChangeScene;
+	constexpr ze::SceneId first_scene = ze::SceneId::LevelSceneId;	
 
 	class Scene {
 		
@@ -23,27 +16,6 @@ namespace ze {
 		virtual ~Scene() = default;
 		virtual void update(const ze::ChangeScene& changeScene) = 0;
 		virtual void draw() = 0;
-
-	};
-
-	class SceneManager {
-
-	private:
-		std::unique_ptr<ze::Scene> scene;
-		ze::ChangeScene changeSceneRequest = [this](const ze::SceneId id) {
-			this->should_change_scene = true;
-			this->scene_id = id;
-		};
-		ze::SceneId scene_id = ze::first_scene;
-		bool should_change_scene = false;
-
-	private:
-		void loadNextScene();		
-
-	public:
-		SceneManager();
-		void update();
-		void draw();
 
 	};
 
@@ -62,11 +34,7 @@ namespace ze {
 
 	};
 
-
-	class LevelScene : public ze::Scene {
-
-	private:
-		ze::entity player_entity;
+	class LevelScene : public ze::Scene {	
 
 	public:
 		LevelScene();

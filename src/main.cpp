@@ -1,5 +1,5 @@
 #include "constants.h"
-#include "scene.h"
+#include "scene_manager.h"
 #include "ecs.h"
 
 

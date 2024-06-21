@@ -20,3 +20,13 @@ unsigned long ze::hash_f(const char* s) {
     }
     return hash;
 }
+
+
+void ze::print_vec(const Vector2 v) {
+    printf("Vec(%.2f, %.2f)\n", v.x, v.y);
+}
+
+
+void ze::print_rect(const Rectangle& r) {
+    printf("Rect(%.2f, %.2f, %.2f, %.2f)\n", r.x, r.y, r.width, r.height);
+}

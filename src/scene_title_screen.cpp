@@ -26,7 +26,7 @@ void ze::TitleScreen::update(const ze::ChangeScene& changeScene) {
 		}
 	}
 	if (IsKeyPressed(KEY_SPACE)) {
-		ze::gTexturePool.clear();
+		ze::gTexturePool.clear();		
 		changeScene(ze::LevelSceneId);
 	}
 }
