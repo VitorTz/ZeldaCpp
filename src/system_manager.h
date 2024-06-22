@@ -29,37 +29,37 @@ namespace ze {
 			
 			// transform
 			this->systemMap.emplace(
-				gComponentType.get<ze::transform_t>(),
+				ze::getComponentType<ze::transform_t>(),
 				std::make_unique<ze::TransformSystem>()
 			);
 
 			// sprite
 			this->systemMap.emplace(
-				gComponentType.get<ze::sprite_t>(),
+				ze::getComponentType<ze::sprite_t>(),
 				std::make_unique<ze::SpriteSystem>()
 			);
 
 			// controller
 			this->systemMap.emplace(
-				gComponentType.get<ze::controller_t>(),
+				ze::getComponentType<ze::controller_t>(),
 				std::make_unique<ze::ControllerSystem>()
 			);
 
 			// obstacle
 			this->systemMap.emplace(
-				gComponentType.get<ze::obstacle_t>(),
+				ze::getComponentType<ze::obstacle_t>(),
 				std::make_unique<ze::ObstacleSystem>()
 			);
 
 			// player
 			this->systemMap.emplace(
-				gComponentType.get<ze::player_t>(),
+				ze::getComponentType<ze::player_t>(),
 				std::make_unique<ze::PlayerSystem>()
 			);
 
 			// sprite animation
 			this->systemMap.emplace(
-				gComponentType.get<ze::sprite_animation_t>(),
+				ze::getComponentType<ze::sprite_animation_t>(),
 				std::make_unique<ze::SpriteAnimationSystem>()
 			);
 
@@ -67,27 +67,27 @@ namespace ze {
 		}
 		template<typename T>
 		void addToSystem(const ze::entity e) {
-			const ze::component id = gComponentType.get<T>();
+			const ze::component id = ze::getComponentType<T>();
 			this->systemMap[id]->entities.insert(e);
 			this->entityToSystems[e].insert(id);
 		}
 		template<typename T>
 		void rmvFromSystem(const ze::entity e) {
-			const ze::component id = gComponentType.get<T>();
+			const ze::component id = ze::getComponentType<T>();
 			this->systemMap[id]->entities.erase(e);
 			this->entityToSystems[e].erase(id);
 		}
 
 		template<typename T>
 		bool isEntityOnSystem(const ze::entity e) const {
-			const ze::component id = ze::gComponentType.get<T>();
+			const ze::component id = ze::getComponentType<T>();
 			const std::unordered_set<ze::entity>* s = &this->systemMap.at(id)->entities;
 			return s->find(e) != s->end();
 		}
 
 		template<typename T>
 		const std::unordered_set<ze::entity>* getEntitiesBySystem() {
-			const ze::component id = ze::gComponentType.get<T>();
+			const ze::component id = ze::getComponentType<T>();
 			return &this->systemMap[id]->entities;
 		}
 

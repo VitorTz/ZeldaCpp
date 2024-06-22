@@ -23,41 +23,41 @@ namespace ze {
 			
 			// transform
 			this->componentArrayMap.emplace(
-				ze::gComponentType.get<ze::transform_t>(),
+				ze::getComponentType<ze::transform_t>(),
 				std::make_unique<ze::ComponentArray<ze::transform_t>>()
 			);
 			
 			this->transformArray = static_cast<ze::ComponentArray<ze::transform_t>*>(
-				this->componentArrayMap.at(ze::gComponentType.get<ze::transform_t>()).get()
+				this->componentArrayMap.at(ze::getComponentType<ze::transform_t>()).get()
 			);
 			
 			// sprite
 			this->componentArrayMap.emplace(
-				ze::gComponentType.get<ze::sprite_t>(),
+				ze::getComponentType<ze::sprite_t>(),
 				std::make_unique<ze::ComponentArray<ze::sprite_t>>()
 			);
 
 			// controller
 			this->componentArrayMap.emplace(
-				ze::gComponentType.get<ze::controller_t>(),
+				ze::getComponentType<ze::controller_t>(),
 				std::make_unique<ze::ComponentArray<ze::controller_t>>()
 			);
 
 			// obstacle
 			this->componentArrayMap.emplace(
-				ze::gComponentType.get<ze::obstacle_t>(),
+				ze::getComponentType<ze::obstacle_t>(),
 				std::make_unique<ze::ComponentArray<ze::obstacle_t>>()
 			);
 
 			// player
 			this->componentArrayMap.emplace(
-				ze::gComponentType.get<ze::player_t>(),
+				ze::getComponentType<ze::player_t>(),
 				std::make_unique<ze::ComponentArray<ze::player_t>>()
 			);
 
 			// sprite animation
 			this->componentArrayMap.emplace(
-				ze::gComponentType.get<ze::sprite_animation_t>(),
+				ze::getComponentType<ze::sprite_animation_t>(),
 				std::make_unique<ze::ComponentArray<ze::sprite_animation_t>>()
 			);
 
@@ -66,7 +66,7 @@ namespace ze {
 
 		template<typename T>
 		void addComponent(const ze::entity e, T c) {
-			const ze::component id = ze::gComponentType.get<T>();
+			const ze::component id = ze::getComponentType<T>();
 			ze::ComponentArray<T>* arr = static_cast<ze::ComponentArray<T>*>(this->componentArrayMap[id].get());
 			arr->insert(e, std::move(c));
 			this->mSize++;
@@ -74,13 +74,13 @@ namespace ze {
 
 		template<typename T>
 		void rmvComponent(const ze::entity e) {
-			this->componentArrayMap[ze::gComponentType.get<T>()]->erase(e);
+			this->componentArrayMap[ze::getComponentType<T>()]->erase(e);
 			this->mSize--;
 		}
 
 		template<typename T>
 		T& getComponent(const ze::entity e) {
-			const ze::component id = ze::gComponentType.get<T>();
+			const ze::component id = ze::getComponentType<T>();
 			ze::ComponentArray<T>* arr = static_cast<ze::ComponentArray<T>*>(this->componentArrayMap[id].get());
 			return arr->at(e);			
 		}

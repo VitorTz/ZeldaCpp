@@ -7,9 +7,7 @@
 
 namespace ze {
 
-
-	constexpr ze::SceneId first_scene = ze::SceneId::LevelSceneId;	
-
+	
 	class Scene {
 		
 	public:

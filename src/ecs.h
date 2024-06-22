@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <iostream>
 #include "util.h"
+#include "globals.h"
 
 
 namespace ze {
@@ -118,19 +119,16 @@ namespace ze {
 				this->should_clear_all_entities = false;
 				
 				for (auto& pair : this->camera) {
+					for (const ze::entity e : pair.second) {
+						this->isOnCamera[e] = false;
+					}
 					pair.second.clear();
-				}
+				}				
 
-				for (int i = 0; i < this->isOnCamera.size(); i++) {
-					this->isOnCamera[i] = false;
-				}
-
-				this->entitiesToDestroy = std::queue<ze::entity>();
-
+				this->entitiesToDestroy = std::queue<ze::entity>();				
 				this->entity.clear();
 				this->component.clear();
 				this->system.clear();
-
 			}
 
 			while (this->entitiesToDestroy.empty() == false) {
@@ -144,6 +142,12 @@ namespace ze {
 		}
 
 		void draw() {
+			
+			const ze::transform_t& player_transform = this->component.getComponent<ze::transform_t>(ze::gPlayerEntity);
+			const Vector2 offset = { 
+				player_transform.rect.x + player_transform.rect.width / 2.f - ZE_SCREEN_WIDTH / 2.f,
+				player_transform.rect.y + player_transform.rect.height / 2.f - ZE_SCREEN_HEIGHT / 2.f
+			};
 			// zIndex and ySort camera
 			for (auto& pair : this->camera) {
 				std::sort(
@@ -153,12 +157,17 @@ namespace ze {
 						const ze::transform_t& lt = this->get_transform(l);
 						const ze::transform_t& rt = this->get_transform(r);
 						return (
-						 	lt.rect.x + lt.rect.height / 2.0f < rt.rect.y + rt.rect.height / 2.0f
+						 	lt.rect.y + lt.rect.height / 2.0f < rt.rect.y + rt.rect.height / 2.0f
 						);						
 					}
-				);				
+				);
 				for (const ze::entity e : pair.second) {
+					ze::transform_t& t = this->component.get_transform(e);
+					t.rect.x -= offset.x;
+					t.rect.y -= offset.y;
 					this->system.draw(e);
+					t.rect.x += offset.x;
+					t.rect.y += offset.y;
 				}
 			}
 		}

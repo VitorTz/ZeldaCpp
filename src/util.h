@@ -16,4 +16,6 @@ namespace ze {
 
 	void print_rect(const Rectangle& r);
 
+	void quit_game();
+
 }

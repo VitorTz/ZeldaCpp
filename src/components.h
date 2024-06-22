@@ -60,8 +60,8 @@ namespace ze{
 
 	typedef struct obstacle {		
 		Rectangle rect = { 0.0f, 0.0f, 0.0f, 0.0f };
-		Vector2 scale = { 1.0f, 1.0f };
-		obstacle(const Vector2 scale) : scale(scale) { }
+		Vector2 hitbox = { 1.0f, 1.0f };
+		obstacle(const Vector2 scale) : hitbox(scale) { }
 		obstacle() = default;
 	} obstacle_t;
 

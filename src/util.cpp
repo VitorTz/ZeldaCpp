@@ -1,4 +1,5 @@
 #include "util.h"
+#include "texture_pool.h"
 
 
 void ze::normalize_vec(Vector2* v) {
@@ -29,4 +30,9 @@ void ze::print_vec(const Vector2 v) {
 
 void ze::print_rect(const Rectangle& r) {
     printf("Rect(%.2f, %.2f, %.2f, %.2f)\n", r.x, r.y, r.width, r.height);
+}
+
+
+void ze::quit_game() {
+    ze::gTexturePool.clear();
 }
