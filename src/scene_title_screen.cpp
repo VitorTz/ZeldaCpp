@@ -1,55 +1,46 @@
-#include "scene.h"
-#include "texture_pool.h"
-#include "constants.h"
+#include "scene_manager.hpp"
+#include "constants.hpp"
+#include "texture_pool.hpp"
+#include "globals.hpp"
 
 
-ze::TitleScreen::TitleScreen(
-) : logo(ze::gTexturePool.load(ASSETS_PATH "logo/logo.png")),
-	font(LoadFontEx(ASSETS_PATH "font/The-Wild-Breath-of-Zelda.ttf", 52, 0, 255)) {
-	std::array<const char*, 2> textures = {
-		ASSETS_PATH "logo/background.png",
-		ASSETS_PATH "logo/background1.png"
-	};
-	for (int i = 0; i < this->background.size(); i++) {
-		this->background[i].first = ze::gTexturePool.load(textures[i]);
-		this->background[i].second = {(float) (i * ZE_SCREEN_WIDTH), 0.0f };
-	}	
+ze::TitleScreenScene::TitleScreenScene() {
+    this->pos[0] = {0.0f, 0.0f};
+    this->pos[1] = {ZE_SCREEN_WIDTH, 0.0f};
 }
 
 
-void ze::TitleScreen::update(const ze::ChangeScene& changeScene) {
-	const float dt = GetFrameTime();
-	for (std::pair<Texture2D, Vector2>& pair : this->background) {
-		pair.second.x -= dt * 100.0f;
-		if (pair.second.x + ZE_SCREEN_WIDTH < 0) {
-			pair.second.x += ZE_SCREEN_WIDTH * background.size();
-		}
-	}
-	if (IsKeyPressed(KEY_SPACE)) {
-		ze::gTexturePool.clear();		
-		changeScene(ze::LevelSceneId);
-	}
+void ze::TitleScreenScene::update() {
+    const float dt = GetFrameTime();
+    for (int i = 0; i < 2; i++) {
+        Vector2* v = &this->pos[i];
+        v->x -= dt * 100.0f;
+        if (v->x + ZE_SCREEN_WIDTH < 0) {
+            v->x += ZE_SCREEN_WIDTH * 2;
+        }
+    }
+    if (IsKeyPressed(KEY_SPACE)) {        
+        ze::gSceneManager.changeScene(ze::LevelSceneId);
+    }
 }
 
 
-void ze::TitleScreen::draw() {
-	BeginDrawing();
-	ClearBackground(BLACK);
-	for (std::pair<Texture2D, Vector2>& pair : this->background) {
-		DrawTextureV(pair.first, pair.second, WHITE);
-	}
-	DrawTexture(
-		logo, 
-		ZE_SCREEN_WIDTH / 2 - logo.width / 2, 
-		ZE_SCREEN_HEIGHT / 2 - logo.height / 2,
-		WHITE
-	);
-	DrawTextEx(
-		font, 
-		"PRESS ENTER",
-		{ ZE_SCREEN_WIDTH / 2.0f - 100, ZE_SCREEN_HEIGHT - 220.0f }, 
-		52, 
-		1.0f, 
-		BLACK);
-	EndDrawing();
+void ze::TitleScreenScene::draw() {
+    const Texture2D b1 = ze::gTexturePool.load("assets/logo/background.png");
+    const Texture2D b2 = ze::gTexturePool.load("assets/logo/background1.png");
+    const Texture2D logo = ze::gTexturePool.load("assets/logo/logo.png");    
+    BeginDrawing();
+    ClearBackground(BLACK);    
+        DrawTextureV(b1, this->pos[0], WHITE);
+        DrawTextureV(b2, this->pos[1], WHITE);
+        DrawTextureV(logo, {ZE_SCREEN_WIDTH / 2.f - logo.width / 2.f, ZE_SCREEN_HEIGHT / 2.f - logo.height / 2.f}, WHITE);
+        DrawTextEx(
+            ze::globals::font, 
+            "PRESS SPACE", 
+            {ZE_SCREEN_WIDTH / 2.f - 120, ZE_SCREEN_HEIGHT - 220.0f},
+            52,
+            1.0f,
+            BLACK
+        );
+    EndDrawing();
 }

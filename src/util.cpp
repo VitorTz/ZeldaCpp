@@ -1,17 +1,13 @@
-#include "util.h"
-#include "texture_pool.h"
+#include "util.hpp"
+#include <cmath>
+#include <fstream>
+#include <iostream>
+#include "constants.hpp"
+#include "texture_pool.hpp"
+#include "globals.hpp"
 
 
-void ze::normalize_vec(Vector2* v) {
-	const float m = std::sqrt(v->x * v->x + v->y * v->y);
-	if (m > 1) {
-		v->x /= m;
-		v->y /= m;
-	}
-}
-
-
-unsigned long ze::hash_f(const char* s) {
+unsigned long ze::hash(const char* s) {
     unsigned long hash = 5381;
     int i = 0;
     while (s[i] != '\0') {
@@ -23,16 +19,37 @@ unsigned long ze::hash_f(const char* s) {
 }
 
 
-void ze::print_vec(const Vector2 v) {
-    printf("Vec(%.2f, %.2f)\n", v.x, v.y);
+void ze::applyHitbox(
+    const Rectangle& src,
+    Rectangle* dest,
+    const Vector2 hitbox
+) {
+    dest->width = src.width * hitbox.x;
+    dest->height = src.height * hitbox.y;
+    dest->x = src.x + ((src.width - dest->width) / 2.f);
+    dest->y = src.y + ((src.height - dest->height) / 2.f);
 }
 
 
-void ze::print_rect(const Rectangle& r) {
-    printf("Rect(%.2f, %.2f, %.2f, %.2f)\n", r.x, r.y, r.width, r.height);
+void ze::normalize_vec(Vector2* v) {
+    const float m = std::sqrt(v->x * v->x + v->y * v->y);
+    if (m > 1) {
+        v->x /= m;
+        v->y /= m;
+    }
 }
 
 
-void ze::quit_game() {
-    ze::gTexturePool.clear();
+std::vector<std::string> ze::getFilesFromDir(
+    const char* file_name,
+    const char* extension
+) {
+    std::vector<std::string> v;
+    for (const auto& p : std::filesystem::directory_iterator(file_name)) {
+        const std::filesystem::path path = p.path();        
+        if (*path.extension().c_str() == *extension) {
+            v.push_back(path.string());
+        }
+    }
+    return v;
 }

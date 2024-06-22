@@ -1,34 +1,44 @@
-#include "scene_manager.h"
+#include "scene_manager.hpp"
+#include "constants.hpp"
+#include "texture_pool.hpp"
 
 
-ze::SceneManager::SceneManager() {
-	this->loadNextScene();
+ze::SceneManager::SceneManager(
+
+) : nextScene(ze::TitleScreenSceneId) {
+    this->loadNextScene();
 }
 
 
 void ze::SceneManager::loadNextScene() {
-	switch (this->scene_id) {
-		case ze::TitleScreenId:
-			this->scene = std::make_unique<ze::TitleScreen>();
-			break;
-		case ze::LevelSceneId:
-			this->scene = std::make_unique<ze::LevelScene>();
-			break;
-		default:
-			break;
-	}
+    ze::gTexturePool.clear();
+    switch (this->nextScene) {
+        case ze::TitleScreenSceneId:
+            this->scene = std::make_unique<ze::TitleScreenScene>();
+            break;
+        case ze::LevelSceneId:
+            this->scene = std::make_unique<ze::LevelScene>();
+            break;
+        default:
+            break;
+    }    
+}
+
+void ze::SceneManager::changeScene(const ze::SceneId sceneId) {
+    this->shouldChangeScene = true;
+    this->nextScene = sceneId;
 }
 
 
 void ze::SceneManager::update() {
-	this->scene->update(this->changeSceneRequest);	
+    this->scene->update();    
 }
 
 
 void ze::SceneManager::draw() {
-	this->scene->draw();
-	if (this->should_change_scene == true) {
-		this->should_change_scene = false;
-		this->loadNextScene();
-	}
+    this->scene->draw();
+    if (this->shouldChangeScene == true) {
+        this->shouldChangeScene = false;
+        this->loadNextScene();
+    }
 }

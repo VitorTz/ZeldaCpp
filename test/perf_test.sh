@@ -1,2 +1,2 @@
 #!/bin/bash
-perf stat -e cycles,instructions,cache-references,cache-misses,bus-cycles,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,L1-dcache-store-misses,branches,branch-misses,L1-icache-load-misses ./build_c/ZeldaCpp
+perf stat -e cycles,instructions,cache-references,cache-misses,bus-cycles,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,L1-dcache-store-misses,branches,branch-misses,L1-icache-load-misses ./build/Zelda
