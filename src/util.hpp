@@ -15,6 +15,8 @@ namespace ze {
 
     void normalize_vec(Vector2* v);
 
+    void swap_vec(Vector2* v);
+
     std::vector<std::string> getFilesFromDir(const char* dir, const char* suffix);    
 
 } // namespace ze

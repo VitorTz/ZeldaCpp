@@ -13,6 +13,7 @@ static void create_player(const float posX, const float posY, const ze::zindex_t
     ze::globals::playerEntity = player;
     ze::gEcs.addComponent<ze::controller_t>(player, ze::controller_t{}, ze::ControllerId);    
     ze::gEcs.addComponent<ze::player_t>(player, ze::player_t{}, ze::PlayerId);
+    ze::gEcs.getComponent<ze::player_t>(player, ze::PlayerId).animation.changeTexture("assets/graphics/player/id.png");    
     ze::gEcs.addComponent<ze::obstacle_t>(player, ze::obstacle_t{{0.80f, 0.60f}}, ze::ObstacleId);    
     ze::transform_t& t = ze::gEcs.getTransform(player);
     t.rect.x = posX;

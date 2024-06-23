@@ -12,6 +12,8 @@
 #define ZE_TILE_SIZE (64)
 
 #define ZE_MAX_ENTITIES (4096)
+#define ZE_WEAPON_SIZE_X (64)
+#define ZE_WEAPON_SIZE_Y (20)
 #define ZE_MIN_ZINDEX CLITERAL(ze::zindex_t)(0)
 #define ZE_MAX_ZINDEX CLITERAL(ze::zindex_t)(10)
 

@@ -23,11 +23,12 @@ namespace ze {
     };
 
     typedef struct transform {
-        Rectangle rect = {0.0f, 0.0f, 0.0f, 0.0f};
-        Vector2 lastMovement = {0.0f, 0.0f};
+        Rectangle rect = {0.0f, 0.0f, 0.0f, 0.0f};        
         Vector2 direction = {0.0f, 0.0f};
-        ze::zindex_t z_index = 0;
+        Vector2 lastMovement = {0.0f, 0.0f};
+        char directionChar[2] = {'i', 'd'};
         float speed = 0.0f;
+        ze::zindex_t z_index = 0;
         transform() = default;
         transform(const ze::zindex_t z_index) : z_index(z_index) { }
     } transform_t;
@@ -83,7 +84,7 @@ namespace ze {
     } animation_t;    
 
     typedef struct player {
-        char direction[2] = {'x', 'd'};
+        char lastDirection[2] = {'i', 'd'};       
         char action = 'x';
         float attack_timer = 0.0f;
         ze::animation_t animation = ze::animation_t{

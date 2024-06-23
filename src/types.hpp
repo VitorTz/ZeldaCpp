@@ -15,8 +15,7 @@ namespace ze {
 
     enum Weapon {
         Axe,
-        Lance,
-        Rapier,
+        Lance,        
         Sai,
         Sword
     };

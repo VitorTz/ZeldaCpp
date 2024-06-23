@@ -114,7 +114,7 @@ namespace ze {
             ) { 
                 std::pair<ze::entity_t, bool> pair = {0, false};
                 for (const ze::entity_t e : *this->system.getEntitiesFromSystem(group)) {
-                    ze::transform_t& t = ze::gEcs.getTransform(e);
+                    ze::transform_t& t = this->getTransform(e);
                     if (CheckCollisionRecs(rect, t.rect)) {
                         pair.first = e;
                         pair.second = true;

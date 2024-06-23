@@ -53,3 +53,10 @@ std::vector<std::string> ze::getFilesFromDir(
     }
     return v;
 }
+
+
+void ze::swap_vec(Vector2* v) {
+    const float t = v->x;
+    v->x = v->y;
+    v->y = t;
+}
