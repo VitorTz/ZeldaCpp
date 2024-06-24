@@ -18,10 +18,11 @@ namespace ze {
             void entityDestroy(ze::entity_t e);
             void clear();
             std::size_t size() const;
-        
+
     };
     
 } // namespace ze
+
 
 
 #endif

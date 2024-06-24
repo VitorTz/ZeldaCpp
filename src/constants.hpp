@@ -1,23 +1,28 @@
-#ifndef ZELDA_CONSTANTS_H
-#define ZELDA_CONSTANTS_H
-#include "types.hpp"
+#ifndef ZELDA_CONSTANTS_HPP
+#define ZELDA_CONSTANTS_HPP
 
 
-
-#define ZE_SCREEN_WIDTH (1280)
-#define ZE_SCREEN_HEIGHT (720)
-#define ZE_SCREEN_CENTERX (ZE_SCREEN_WIDTH / 2.0f)
-#define ZE_SCREEN_CENTERY (ZE_SCREEN_HEIGHT / 2.0f)
+#define ZE_SCREEN_W (1280)
+#define ZE_SCREEN_H (720)
+#define ZE_SCREEN_CENTERX (ZE_SCREEN_W / 2.0f)
+#define ZE_SCREEN_CENTERY (ZE_SCREEN_H / 2.0f)
 #define ZE_WINDOW_TITLE "Zelda"
-#define ZE_TILE_SIZE (64)
+#define ZE_DEBUG_MODE (true)
+
+#define ZE_MIN_ZINDEX (0)
+#define ZE_MAX_ZINDEX (10)
+
+
+#define ZE_ANIMATION_SPEED_SLOW (60 / 4)
+#define ZE_ANIMATION_SPEED_NORMAL (60 / 6)
+#define ZE_ANIMATION_SPEED_FAST (60 / 10)
 
 #define ZE_MAX_ENTITIES (4096)
-#define ZE_WEAPON_SIZE_X (64)
-#define ZE_WEAPON_SIZE_Y (20)
-#define ZE_MIN_ZINDEX CLITERAL(ze::zindex_t)(0)
-#define ZE_MAX_ZINDEX CLITERAL(ze::zindex_t)(10)
 
+#define ZE_TILE_SIZE (64)
+
+#define ZE_PLAYER_ATTACK_SPEED (0.30f)
 #define ZE_PLAYER_SPEED (200.0f)
-#define ZE_PLAYER_ATTACK_SPEED (0.40f)
+
 
 #endif

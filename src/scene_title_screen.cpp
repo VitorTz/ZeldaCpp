@@ -1,46 +1,56 @@
-#include "scene_manager.hpp"
+#include <raylib.h>
+#include "scene.hpp"
 #include "constants.hpp"
 #include "texture_pool.hpp"
+#include "scene_manager.hpp"
 #include "globals.hpp"
 
 
-ze::TitleScreenScene::TitleScreenScene() {
-    this->pos[0] = {0.0f, 0.0f};
-    this->pos[1] = {ZE_SCREEN_WIDTH, 0.0f};
+Vector2 backgroundPos[2];
+
+
+ze::TitleScreen::TitleScreen() {
+    for (int i = 0; i < 2; i++) {
+        backgroundPos[0] = {static_cast<float>(ZE_SCREEN_W * i), 0.0f};
+    }
 }
 
 
-void ze::TitleScreenScene::update() {
+void ze::TitleScreen::update() {
     const float dt = GetFrameTime();
     for (int i = 0; i < 2; i++) {
-        Vector2* v = &this->pos[i];
+        Vector2* v = &backgroundPos[i];
         v->x -= dt * 100.0f;
-        if (v->x + ZE_SCREEN_WIDTH < 0) {
-            v->x += ZE_SCREEN_WIDTH * 2;
+        if (v->x + ZE_SCREEN_W < 0.0f) {
+            v->x += ZE_SCREEN_W * 2.0f;
         }
+        
     }
     if (IsKeyPressed(KEY_SPACE)) {        
-        ze::gSceneManager.changeScene(ze::LevelSceneId);
+        ze::gSceneManager.requestChangeScene(ze::LevelSceneId);
     }
 }
 
 
-void ze::TitleScreenScene::draw() {
-    const Texture2D b1 = ze::gTexturePool.load("assets/logo/background.png");
-    const Texture2D b2 = ze::gTexturePool.load("assets/logo/background1.png");
-    const Texture2D logo = ze::gTexturePool.load("assets/logo/logo.png");    
+void ze::TitleScreen::draw() {
+    Texture2D logo = ze::gTexturePool.load("assets/logo/logo.png");
     BeginDrawing();
-    ClearBackground(BLACK);    
-        DrawTextureV(b1, this->pos[0], WHITE);
-        DrawTextureV(b2, this->pos[1], WHITE);
-        DrawTextureV(logo, {ZE_SCREEN_WIDTH / 2.f - logo.width / 2.f, ZE_SCREEN_HEIGHT / 2.f - logo.height / 2.f}, WHITE);
+    ClearBackground(BLACK);
+        DrawTextureV(ze::gTexturePool.load("assets/logo/background.png"), backgroundPos[0], WHITE);
+        DrawTextureV(ze::gTexturePool.load("assets/logo/background1.png"), backgroundPos[1], WHITE);
+        DrawTextureV(
+            logo, 
+            {ZE_SCREEN_CENTERX - logo.width / 2.0f, ZE_SCREEN_CENTERY - logo.height / 2.0f}, 
+            WHITE
+        );
         DrawTextEx(
-            ze::globals::font, 
-            "PRESS SPACE", 
-            {ZE_SCREEN_WIDTH / 2.f - 120, ZE_SCREEN_HEIGHT - 220.0f},
+            ze::globals::font,
+            "PRESS SPACE",
+            {ZE_SCREEN_CENTERX - 120.0f, ZE_SCREEN_H - 220.0f},
             52,
             1.0f,
             BLACK
         );
+        
     EndDrawing();
 }

@@ -1,9 +1,8 @@
 #ifndef ZELDA_TEXTURE_POOL_HPP
 #define ZELDA_TEXTURE_POOL_HPP
-#include <unordered_map>
 #include <raylib.h>
-#include <thread>
-#include <mutex>
+#include <unordered_map>
+#include <array>
 
 
 namespace ze {
@@ -12,13 +11,13 @@ namespace ze {
     class TexturePool {
 
         private:
-            std::unordered_map<unsigned long, Texture2D> textureMap;
-            std::mutex m;        
-        
+            std::unordered_map<unsigned long, Texture2D> textureMap{};
+            
         public:
             TexturePool();
             ~TexturePool();
-            Texture2D load(const char* file_name);            
+            void loadDir(const char* dir, bool recursive);
+            Texture2D load(const char* file_name);
             void erase(const char* file_name);
             void clear();
             std::size_t size() const;

@@ -7,8 +7,8 @@ void ze::SpriteSystem::update(const float dt) {
 }
 
 
-void ze::SpriteSystem::draw(const ze::entity_t e) { 
+void ze::SpriteSystem::draw(const ze::entity_t e) {
     const ze::transform_t& t = ze::gEcs.getTransform(e);
-    const ze::sprite_t& s = ze::gEcs.getComponent<ze::sprite_t>(e, ze::SpriteId);
-    DrawTextureV(s.texture, {t.rect.x, t.rect.y}, WHITE);
+    const ze::sprite_t& s = ze::gEcs.getComponent<ze::sprite_t>(e);
+    DrawTextureV(s.texture, t.pos, WHITE);
 }

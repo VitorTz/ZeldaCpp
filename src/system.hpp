@@ -6,6 +6,7 @@
 
 namespace ze {
 
+
     class System {
 
         public:
@@ -15,7 +16,6 @@ namespace ze {
             virtual ~System() = default;
             virtual void update(float dt) = 0;
             virtual void draw(ze::entity_t e) = 0;
-
     };
 
     class TransformSystem : public ze::System {
@@ -26,7 +26,6 @@ namespace ze {
 
     };
 
-
     class SpriteSystem : public ze::System {
 
         public:
@@ -35,26 +34,7 @@ namespace ze {
 
     };
 
-
-    class ObstacleSystem : public ze::System {
-
-        public:
-            void update(float dt) override;
-            void draw(ze::entity_t e) override;
-
-    };
-
-    
-    class ControllerSystem : public ze::System {
-
-        public:
-            void update(float dt) override;
-            void draw(ze::entity_t e) override;
-
-    };
-
-
-    class AnimationSystem : public ze::System {
+    class SpriteAnimationSystem : public ze::System {
 
         public:
             void update(float dt) override;
@@ -63,15 +43,20 @@ namespace ze {
     };
 
     class PlayerSystem : public ze::System {
-
+        
         public:
             void update(float dt) override;
             void draw(ze::entity_t e) override;
-
+    };
+    
+    
+    class ObstacleSystem : public ze::System {
+        
+        public:
+            void update(float dt) override;
+            void draw(ze::entity_t e) override;
     };
 
-
-    
 } // namespace ze
 
 

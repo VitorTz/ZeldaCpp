@@ -6,39 +6,10 @@
 namespace ze {
 
     typedef std::uint32_t entity_t;
-    typedef std::uint8_t zindex_t;
-
-    enum TileType {
-        Grass,
-        Block
-    };
-
-    enum Weapon {
-        Axe,
-        Lance,        
-        Sai,
-        Sword
-    };
-
-    typedef struct tile {
-        ze::entity_t entity;        
-        int id;
-        ze::TileType type;
-    } tile_t;
-
-    enum SceneId {
-        TitleScreenSceneId,
-        LevelSceneId
-    };
-
-    enum AnimationSpeed {
-        Slow = 4,
-        Normal = 6,
-        Fast = 8
-    }; 
+    typedef std::uint8_t zindex_t;    
+    typedef std::uint8_t component_t;
     
 } // namespace ze
-
 
 
 #endif

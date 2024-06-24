@@ -1,10 +1,11 @@
-#include "util.hpp"
 #include <cmath>
+#include <stdio.h>
 #include <fstream>
 #include <iostream>
+#include <filesystem>
+#include "util.hpp"
 #include "constants.hpp"
 #include "texture_pool.hpp"
-#include "globals.hpp"
 
 
 unsigned long ze::hash(const char* s) {
@@ -59,4 +60,14 @@ void ze::swap_vec(Vector2* v) {
     const float t = v->x;
     v->x = v->y;
     v->y = t;
+}
+
+
+void ze::print_vec(Vector2 v) {
+    printf("Vec(%.2f, %.2f)\n", v.x, v.y);
+}
+
+
+void ze::print_rect(const Rectangle& rect) {
+    printf("Rect(%.2f, %.2f, %.2f, %.2f)\n", rect.x, rect.y, rect.width, rect.height);
 }

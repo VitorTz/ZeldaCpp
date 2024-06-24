@@ -6,7 +6,7 @@
 ze::EntityManager::EntityManager() {
     for (ze::entity_t e = 0; e < ZE_MAX_ENTITIES; e++) {
         this->queue.push(e);
-    }    
+    }
 }
 
 
@@ -27,10 +27,10 @@ void ze::EntityManager::entityDestroy(const ze::entity_t e) {
 
 void ze::EntityManager::clear() {
     this->queue = std::queue<ze::entity_t>();
+    this->mSize = 0;
     for (ze::entity_t e = 0; e < ZE_MAX_ENTITIES; e++) {
         this->queue.push(e);
-    }    
-    this->mSize = 0;
+    }
 }
 
 
